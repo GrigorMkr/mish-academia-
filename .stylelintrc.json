@@ -1,0 +1,6 @@
+{
+  "extends": "stylelint-config-htmlacademy",
+  "rules": {
+    "color-hex-alpha": null
+  }
+}

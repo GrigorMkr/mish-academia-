@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ru" class="layout--fluid" data-header-surface="hero">
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mish × HTML Academy — Spreent</title>
+    <script>
+      (function () {
+        var root = document.documentElement;
+        // Prevent browser scroll restoration from animating with `scroll-behavior: smooth`.
+        root.style.scrollBehavior = 'auto';
+        window.addEventListener(
+          'load',
+          function () {
+            requestAnimationFrame(function () {
+              root.style.scrollBehavior = '';
+            });
+          },
+          { once: true }
+        );
+      })();
+    </script>
+    <link rel="preload" href="fonts/loos-normal-medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/loos-wide-medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/manrope-medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="site-stack-video" aria-hidden="true">
+      <video
+        class="site-stack-video__el"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="auto"
+        disablepictureinpicture
+        aria-hidden="true"
+      >
+        <source src="assets/header-navbar-bg.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="hero__grid-sticky-wrap">
+      <div class="hero-glass hero-glass--circle">
+        <h1 class="hero-glass__title">
+          <span class="hero-glass__title-line hero-glass__title-line--1">Сделайте апгрейд</span><br />
+          <span class="hero-glass__title-line hero-glass__title-line--2">карьеры в ИТ через</span><br />
+          <span class="hero-glass__title-line hero-glass__title-line--3">практику</span>
+        </h1>
+        <a href="#price" class="btn hero-glass__cta">Начать учиться</a>
+      </div>
+      <div class="hero-glass hero-glass--panel" aria-hidden="true">
+        <div class="hero-panel">
+          <div class="hero-panel__top">
+            <span class="hero-panel__dot"></span>
+            <span class="hero-panel__dot"></span>
+            <span class="hero-panel__dot"></span>
+          </div>
+          <div class="hero-panel__rows">
+            <div class="hero-panel__row"></div>
+            <div class="hero-panel__row hero-panel__row--mid"></div>
+            <div class="hero-panel__row hero-panel__row--short"></div>
+          </div>
+          <svg class="hero-panel__chart" viewBox="0 0 320 100" fill="none" aria-hidden="true">
+            <path
+              d="M4 78 C48 22 72 88 112 52 S200 8 268 38 L316 18"
+              stroke="rgb(255 255 255 / 0.88)"
+              stroke-width="3.25"
+              stroke-linecap="round"
+            />
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="page-shell">
+      <header class="site-header">
+        <div class="site-header__bar">
+          <div class="site-header__bar-media" aria-hidden="true"></div>
+          <div class="site-header__inner">
+            <div class="site-header__start">
+              <a href="#" class="site-header__brand logo-spreent logo-spreent--header" aria-label="Spreent на главную">
+                <span class="logo-spreent__box" aria-hidden="true">
+                  <span class="logo-spreent__slice logo-spreent__slice--1">
+                    <img src="assets/logo-v1.svg" alt="" width="15" height="17" />
+                  </span>
+                  <span class="logo-spreent__slice logo-spreent__slice--2">
+                    <img src="assets/logo-v2.svg" alt="" width="17" height="24" />
+                  </span>
+                  <span class="logo-spreent__slice logo-spreent__slice--3">
+                    <img src="assets/logo-v3.svg" alt="" width="14" height="16" />
+                  </span>
+                  <span class="logo-spreent__slice logo-spreent__slice--4">
+                    <img src="assets/logo-v4.svg" alt="" width="18" height="17" />
+                  </span>
+                  <span class="logo-spreent__slice logo-spreent__slice--5">
+                    <img src="assets/logo-v5.svg" alt="" width="18" height="17" />
+                  </span>
+                  <span class="logo-spreent__slice logo-spreent__slice--6">
+                    <img src="assets/logo-v6.svg" alt="" width="16" height="16" />
+                  </span>
+                  <span class="logo-spreent__slice logo-spreent__slice--7">
+                    <img src="assets/logo-v7.svg" alt="" width="15" height="21" />
+                  </span>
+                </span>
+              </a>
+            </div>
+            <div class="site-header__end">
+              <nav class="site-header__nav" id="site-header-nav" aria-label="Основное меню">
+                <a href="#about">Об академии</a>
+                <a href="#price">Курсы</a>
+                <a href="#work">Корпоративное обучение</a>
+              </nav>
+              <div class="site-header__trailing">
+                <a href="#form" class="btn btn--sm site-header__cta">Начать</a>
+                <span class="site-header__rule" aria-hidden="true"></span>
+                <button
+                  type="button"
+                  class="site-header__burger"
+                  aria-expanded="false"
+                  aria-controls="site-header-nav"
+                  aria-label="Открыть меню"
+                >
+                  <span class="site-header__burger-line"></span>
+                  <span class="site-header__burger-line"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="site-header__menu-scrim" role="presentation" aria-hidden="true"></div>
+      </header>
+      <div class="page">
+      <main>
+      <section class="section section--hero section--hero-promo" aria-label="Главный экран">
+        <div class="hero hero--promo">
+          <div class="hero__grain" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <section id="about" class="section section--about">
+        <div class="section__inner section__inner--about">
+          <header class="about__intro">
+            <div class="about__intro-inner">
+              <h2 class="h2">Почему выбирают<br />академию spreent</h2>
+            </div>
+          </header>
+
+          <div class="about__mosaic">
+            <article class="about-card about-card--deep">
+              <div class="about-card__copy">
+                <div class="about-card__head">
+                  <span class="about-card__tag">Что я получу?</span>
+                  <h3 class="about-card__h">Практические<br />навыки</h3>
+                </div>
+                <p class="about-card__lede">
+                  Даем конкретные знания по&nbsp;профессии. Тренируемся на&nbsp;реальных проектах<br class="about-card__br about-card__br--deep" />
+                  и&nbsp;делаем свой продукт
+                </p>
+              </div>
+              <div class="about-card__media about-card__media--decor" aria-hidden="true">
+                <div class="about-decor">
+                  <div class="about-decor__glow" aria-hidden="true"></div>
+                  <div class="about-decor__you-cursor-wrap" aria-hidden="true">
+                    <img
+                      class="about-decor__you-cursor-img"
+                      src="assets/about-decor-you-cursor.svg"
+                      alt=""
+                      width="31"
+                      height="32"
+                      decoding="async"
+                    />
+                  </div>
+                  <span class="about-decor__pill about-decor__pill--you">You</span>
+                  <div class="about-decor__frame"></div>
+                  <span class="about-decor__frame-handle about-decor__frame-handle--tl"></span>
+                  <span class="about-decor__frame-handle about-decor__frame-handle--tr"></span>
+                  <div class="about-decor__ellipse-group" aria-hidden="true">
+                    <div class="about-decor__ellipse-stack">
+                      <div class="about-decor__ellipse-stack-clip">
+                        <div class="about-decor__ellipse-cross" aria-hidden="true">
+                          <span class="about-decor__ellipse-cross-line about-decor__ellipse-cross-line--v"></span>
+                          <span class="about-decor__ellipse-cross-line about-decor__ellipse-cross-line--h"></span>
+                        </div>
+                        <div class="about-decor__ellipse-disk">
+                          <picture>
+                            <source type="image/webp" srcset="assets/about-decor-ellipse-figma.webp" />
+                            <img
+                              class="about-decor__ellipse-img"
+                              src="assets/about-decor-ellipse-figma.png"
+                              alt=""
+                              width="117"
+                              height="117"
+                              decoding="async"
+                            />
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="about-decor__dot about-decor__dot--e-tl"></span>
+                    <span class="about-decor__dot about-decor__dot--e-tr"></span>
+                    <span class="about-decor__dot about-decor__dot--e-bl"></span>
+                    <span class="about-decor__dot about-decor__dot--e-br"></span>
+                  </div>
+                  <div class="about-decor__ux-hand" aria-hidden="true">
+                    <svg
+                      class="about-decor__hand-img"
+                      width="26"
+                      height="26"
+                      viewBox="0 0 26 26"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      focusable="false"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M13.3955 2.90039C14.2678 2.90048 15.0138 3.43265 15.3311 4.18945C15.6432 4.00561 16.0072 3.90039 16.3955 3.90039C17.5551 3.90051 18.4951 4.84024 18.4951 6V7.10254C18.768 6.97282 19.0735 6.90039 19.3955 6.90039C20.5551 6.90051 21.4951 7.84024 21.4951 9V17C21.4951 20.3689 18.7643 23.0995 15.3955 23.0996H14.3955C12.5375 23.0996 10.8731 22.2678 9.75586 20.96C9.72947 20.9368 9.70259 20.9139 9.67676 20.8896L4.67188 16.1836C3.73192 15.2999 3.63774 13.8218 4.45996 12.8262C5.26586 11.8502 6.68046 11.6719 7.70117 12.4258L8.29492 12.8633V7C8.29492 5.84017 9.23568 4.90039 10.3955 4.90039C10.7172 4.90042 11.0223 4.97212 11.2949 5.10156V5C11.2949 3.8402 12.2357 2.90039 13.3955 2.90039ZM13.3955 4.09961C12.8984 4.09961 12.4951 4.50293 12.4951 5V12.0996H11.2949V7C11.2949 6.50301 10.8924 6.09973 10.3955 6.09961C9.89844 6.09961 9.49512 6.50293 9.49512 7V15.2432L9.33594 15.125L6.98828 13.3906C6.48262 13.0173 5.78651 13.1034 5.38477 13.5898C4.96625 14.0968 5.01469 14.8576 5.49414 15.3086L10.499 20.0146C10.5319 20.0455 10.5654 20.0751 10.5996 20.1025L10.6074 20.1094L10.6143 20.1172C11.5131 21.2062 12.8734 21.9004 14.3955 21.9004H15.3955C18.1016 21.9003 20.2949 19.7061 20.2949 17V9C20.2949 8.50301 19.8924 8.09973 19.3955 8.09961C18.8984 8.09961 18.4951 8.50293 18.4951 9V12.0996H17.2949V6C17.2949 5.50301 16.8924 5.09973 16.3955 5.09961C15.899 5.09961 15.4961 5.50187 15.4951 5.99805V12.0996H14.2949V5C14.2949 4.503 13.8925 4.09973 13.3955 4.09961Z"
+                        fill="#0039cc"
+                        stroke="#0039cc"
+                        stroke-width="0.2"
+                      />
+                      <path
+                        d="M13.3953 4C12.843 4 12.3953 4.4477 12.3953 5V12H11.3953V7C11.3953 6.4477 10.9475 6 10.3953 6C9.84296 6 9.39526 6.4477 9.39526 7V15.0448L7.04786 13.3105C6.49926 12.9052 5.74316 12.9989 5.30766 13.5262C4.85546 14.0739 4.90756 14.8949 5.42556 15.3819L10.4305 20.0878C10.4653 20.1205 10.5009 20.1514 10.5371 20.1805C11.4541 21.2917 12.842 22 14.3953 22H15.3953C18.1567 22 20.3953 19.7614 20.3953 17V9C20.3953 8.4477 19.9475 8 19.3953 8C18.843 8 18.3953 8.4477 18.3953 9V12H17.3953V6C17.3953 5.4477 16.9475 5 16.3953 5C15.8436 5 15.3963 5.4466 15.3953 5.998V12H14.3953V5C14.3953 4.4477 13.9476 4 13.3953 4Z"
+                        fill="#fff"
+                      />
+                    </svg>
+                  </div>
+                  <span class="about-decor__pill about-decor__pill--ux">UX Lead</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="about-card about-card--lime">
+              <div class="about-card__copy">
+                <div class="about-card__head">
+                  <span class="about-card__tag">Кто будет учить?</span>
+                  <h3 class="about-card__h">Опытные<br />преподаватели</h3>
+                </div>
+                <p class="about-card__lede">
+                  В школе преподают эксперты-практики, которые прямо сейчас работают в&nbsp;крупных компаниях индустрии
+                </p>
+              </div>
+              <div class="about-card__media about-card__media--photo" aria-hidden="true">
+                <div class="about-card__photo-box">
+                  <div class="about-card__img-crop">
+                    <picture>
+                      <source type="image/webp" srcset="assets/about-teacher-figma.webp" />
+                      <img
+                        class="about-card__img"
+                        src="assets/about-teacher-figma.png"
+                        alt=""
+                        width="441"
+                        height="489"
+                        decoding="async"
+                      />
+                    </picture>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="about-card about-card--muted">
+              <div class="about-card__copy">
+                <div class="about-card__head">
+                  <span class="about-card__tag">Что мне дадут?</span>
+                  <h3 class="about-card__h">Актуальные<br />знания</h3>
+                </div>
+                <p class="about-card__lede">
+                  Знаем, какие навыки нужны работодателям. Составляем программы, ориентируясь на&nbsp;тенденции&nbsp;рынка
+                </p>
+              </div>
+              <div class="about-card__media about-card__media--seal" aria-hidden="true">
+                <div class="about-card__seal-view">
+                  <div class="about-card__seal-clip">
+                    <div class="about-card__seal-stage">
+                      <div class="about-card__seal-rotor">
+                        <div class="about-card__seal-frame">
+                          <picture>
+                            <source type="image/webp" srcset="assets/about-seal-figma.webp" />
+                            <img
+                              class="about-card__seal-img"
+                              src="assets/about-seal-figma.png"
+                              alt=""
+                              width="562"
+                              height="549"
+                              decoding="async"
+                            />
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="community" class="section section--community">
+        <h2 class="visually-hidden">Сообщество выпускников и отзывы</h2>
+        <div class="community">
+          <div class="community__line" aria-hidden="true">
+            <img src="assets/community-line-figma.svg" alt="" width="1360" height="1" decoding="async" />
+          </div>
+          <div class="community-students">
+            <div class="community-students__avatars">
+              <div class="community-avatar">
+                <picture>
+                  <source type="image/webp" srcset="assets/avatar-1665.webp" />
+                  <img src="assets/avatar-1665.png" alt="" width="120" height="120" decoding="async" />
+                </picture>
+              </div>
+              <div class="community-avatar">
+                <picture>
+                  <source type="image/webp" srcset="assets/avatar-1666.webp" />
+                  <img src="assets/avatar-1666.png" alt="" width="120" height="120" decoding="async" />
+                </picture>
+              </div>
+              <div class="community-avatar community-avatar--center-photo">
+                <picture>
+                  <source type="image/webp" srcset="assets/avatar-1670.webp" />
+                  <img src="assets/avatar-1670.png" alt="" width="120" height="120" decoding="async" />
+                </picture>
+              </div>
+              <div class="community-avatar community-avatar--crop-b">
+                <picture>
+                  <source type="image/webp" srcset="assets/avatar-1667.webp" />
+                  <img src="assets/avatar-1667.png" alt="" width="120" height="120" decoding="async" />
+                </picture>
+              </div>
+              <div class="community-avatar community-avatar--plus" aria-hidden="true">
+                <img src="assets/community-plus.svg" alt="" width="120" height="120" decoding="async" />
+              </div>
+            </div>
+            <div class="community-students__bg" aria-hidden="true"></div>
+          </div>
+
+          <div class="community-stats">
+            <div class="community-stats__left">
+              <p class="community-stats__big">Более 100</p>
+              <p class="community-stats__text">
+                выпускников за все время<br />
+                работы академии
+              </p>
+            </div>
+
+            <div class="community-stats__right">
+              <div class="community-stat">
+                <p class="community-stat__pct">78%</p>
+                <p class="community-stat__text">
+                  готовы рекомендовать академию<br />
+                  spreent своим друзьям и&nbsp;коллегам
+                </p>
+              </div>
+              <div class="community-stat community-stat--lower">
+                <p class="community-stat__pct">89%</p>
+                <p class="community-stat__text">
+                  отмечают качество и&nbsp;полезность знаний, полученных в&nbsp;Академии
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="price" class="section section--price">
+        <div class="price">
+          <div class="price__head">
+            <h2 class="h2 h2--tight">Стоимость обучения</h2>
+          </div>
+
+          <div class="price-card">
+            <div class="price-left">
+              <p class="price-left__title">Базовый план</p>
+
+              <div class="price-features">
+                <div class="price-col">
+                  <div class="price-line">
+                    <span class="price-icon" aria-hidden="true">
+                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                    </span>
+                    <p class="price-text">Доступ к материалам навсегда</p>
+                  </div>
+                  <div class="price-line">
+                    <span class="price-icon" aria-hidden="true">
+                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                    </span>
+                    <p class="price-text">С обратной связью и д/з</p>
+                  </div>
+                  <div class="price-line">
+                    <span class="price-icon" aria-hidden="true">
+                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                    </span>
+                    <p class="price-text">Ревью портфолио и резюме</p>
+                  </div>
+                </div>
+
+                <div class="price-col price-col--narrow">
+                  <div class="price-line">
+                    <span class="price-icon" aria-hidden="true">
+                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                    </span>
+                    <p class="price-text">Начало сразу или с группой</p>
+                  </div>
+                  <div class="price-line">
+                    <span class="price-icon" aria-hidden="true">
+                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                    </span>
+                    <p class="price-text">Скидка 24% при полной оплате</p>
+                  </div>
+                  <div class="price-line">
+                    <span class="price-icon" aria-hidden="true">
+                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                    </span>
+                    <p class="price-text">Сертификат по окончанию курса</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="price-right">
+              <div class="price-right__vline" aria-hidden="true">
+                <img src="assets/price-vline-figma.svg" alt="" width="270" height="1" decoding="async" />
+              </div>
+
+              <div class="price-right__content">
+                <div class="price-right__prices">
+                  <p class="price-right__label">Стоимость</p>
+                  <div class="price-right__stack">
+                    <div class="price-right__row">
+                      <span class="price-right__now">83 890 ₽</span>
+                      <span class="price-right__old">110 388 ₽</span>
+                    </div>
+                    <p class="price-right__or">или</p>
+                    <div class="price-right__row">
+                      <span class="price-right__now">419 000 ₸</span>
+                      <span class="price-right__old">552 000 ₸</span>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="#form" class="btn">Купить курс</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work" class="section section--work">
+        <div class="work">
+          <div class="work__layer">
+            <div class="work__text">
+              <div class="work__intro">
+                <h2 class="h2">
+                  Где работают<br />
+                  наши выпускники
+                </h2>
+                <p class="lead-muted">
+                  Начните работать в крупнейших<br />
+                  компаниях индустрии
+                </p>
+              </div>
+              <a href="#form" class="btn">Присоединиться</a>
+            </div>
+
+            <div class="work-tile work-tile--vtb">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--vtb">
+                  <img src="assets/logo-vtb.svg" alt="ВТБ" width="94" height="34" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--mts">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--mts">
+                  <img src="assets/logo-mts.svg" alt="МТС" width="42" height="42" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--sber work-tile--rail-col">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--sber">
+                  <img src="assets/logo-sber.svg" alt="Сбер" width="121" height="33" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--mesh work-tile--mesh-r2-vtb" aria-hidden="true"></div>
+
+            <div class="work-tile work-tile--sport">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--sport">
+                  <img src="assets/logo-sportmaster.svg" alt="Спортмастер" width="180" height="27" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--rustore work-tile--rail-col">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--rustore">
+                  <img src="assets/logo-rustore.svg" alt="RuStore" width="159" height="40" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--mish">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--mish">
+                  <img src="assets/logo-mish1.svg" alt="mish" width="85" height="32" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--chulakov">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--chulakov">
+                  <img src="assets/logo-chulakov.svg" alt="CHULAKOV" width="141" height="16" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--vc">
+              <div class="work-tile__inner">
+                <div class="work-logo-img work-logo-img--vc">
+                  <img src="assets/logo-vc.svg" alt="vc.ru" width="48" height="43" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--epam work-tile--rail-inner">
+              <div class="work-tile__inner work-tile__inner--epam">
+                <div class="work-logo-img work-logo-img--epam">
+                  <img src="assets/logo-epam.svg" alt="epam" width="93" height="30" />
+                </div>
+              </div>
+            </div>
+
+            <div class="work-tile work-tile--mesh work-tile--mesh-r3-end" aria-hidden="true"></div>
+          </div>
+        </div>
+      </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-cert">
+          <div class="footer-cert__band" aria-hidden="true"></div>
+          <section class="footer-cert__card footer-cert__card--anim footer-cert__card--instant" aria-label="Сертификат">
+            <div class="footer-cert__left">
+              <div class="footer-cert__block-h">
+                <div class="footer-cert__intro">
+                  <h2 class="footer-cert__title">Получите сертификат после успешного завершения курса</h2>
+                  <p class="footer-cert__desc">
+                    Обучение ведется на основании лицензии государственного образца
+                  </p>
+                </div>
+                <a href="#price" class="btn footer-cert__btn">Начать учиться</a>
+              </div>
+            </div>
+            <div class="footer-cert__right" aria-hidden="true">
+              <img
+                src="assets/cert-only.png"
+                alt=""
+                class="footer-cert__layer"
+                width="1024"
+                height="576"
+                decoding="async"
+                fetchpriority="low"
+              />
+            </div>
+          </section>
+        </div>
+
+        <section id="form" class="footer-form" aria-label="Заявка">
+          <h2 class="h2 h2--white">Сделайте апгрейд карьеры</h2>
+          <form class="footer-form__fields" action="https://echo.htmlacademy.ru/" method="post" novalidate>
+            <label class="footer-form__field">
+              <span class="visually-hidden">Имя</span>
+              <input id="lead-name" type="text" name="name" class="footer-form__input" placeholder="Имя" autocomplete="name" required />
+            </label>
+            <label class="footer-form__field">
+              <span class="visually-hidden">Телефон</span>
+              <input id="lead-phone" type="tel" name="phone" class="footer-form__input" placeholder="Телефон" autocomplete="tel" required />
+            </label>
+            <label class="footer-form__field">
+              <span class="visually-hidden">Почта</span>
+              <input id="lead-email" type="email" name="email" class="footer-form__input" placeholder="Почта" autocomplete="email" required />
+            </label>
+            <button type="submit" class="btn btn--lime footer-form__submit">Оставить заявку</button>
+          </form>
+          <p class="footer-form__legal">
+            Нажимая кнопку «Оставить заявку», вы&nbsp;подтверждаете согласие на&nbsp;обработку персональных данных
+          </p>
+        </section>
+
+        <div class="footer-bottom">
+          <div class="footer-bottom__top">
+            <a href="#" class="footer-logo logo-spreent logo-spreent--footer logo-spreent--light" aria-label="Spreent">
+              <span class="logo-spreent__box" aria-hidden="true">
+                <span class="logo-spreent__slice logo-spreent__slice--1">
+                  <img src="assets/logo-footer-v8.svg" alt="" width="32" height="35" />
+                </span>
+                <span class="logo-spreent__slice logo-spreent__slice--2">
+                  <img src="assets/logo-footer-v9.svg" alt="" width="36" height="50" />
+                </span>
+                <span class="logo-spreent__slice logo-spreent__slice--3">
+                  <img src="assets/logo-footer-v10.svg" alt="" width="29" height="34" />
+                </span>
+                <span class="logo-spreent__slice logo-spreent__slice--4">
+                  <img src="assets/logo-footer-v11.svg" alt="" width="37" height="35" />
+                </span>
+                <span class="logo-spreent__slice logo-spreent__slice--5">
+                  <img src="assets/logo-footer-v12.svg" alt="" width="37" height="35" />
+                </span>
+                <span class="logo-spreent__slice logo-spreent__slice--6">
+                  <img src="assets/logo-footer-v13.svg" alt="" width="33" height="34" />
+                </span>
+                <span class="logo-spreent__slice logo-spreent__slice--7">
+                  <img src="assets/logo-footer-v14.svg" alt="" width="31" height="44" />
+                </span>
+              </span>
+            </a>
+            <div class="footer-bottom__nav-stack">
+              <nav class="footer-nav footer-nav--left" aria-label="Навигация подвала">
+                <a href="#about">Об академии</a>
+                <a href="#work">Корпоративное обучение</a>
+                <a href="#price">Оплата</a>
+              </nav>
+              <nav class="footer-nav footer-nav--right" aria-label="Ещё">
+                <a href="#">Личный кабинет</a>
+                <a href="#">Связаться с нами</a>
+                <a href="#">Политика конфиденциальности</a>
+              </nav>
+            </div>
+          </div>
+
+          <div class="footer-bottom__meta">
+            <p class="footer-copy">Академия Богдана Гончаренко © 2024</p>
+            <div class="by-mish" aria-label="by mish">
+              <span class="by-mish__by">by</span>
+              <span class="by-mish__mish" aria-hidden="true">
+                <img src="assets/mish-by.svg" alt="" width="85" height="30" />
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
+      </div>
+    </div>
+
+    <div class="hero__subcopy hero__subcopy--layer">
+      <div class="hero__subcopy-item">
+        <div class="hero__subcopy-row">Учеба построена на принципах</div>
+        <div class="hero__subcopy-row">реальной работы в ИТ и дизайне</div>
+      </div>
+      <div class="hero__subcopy-item">
+        <div class="hero__subcopy-row">Учим систематизировать знания</div>
+        <div class="hero__subcopy-row">и выстраивать процессы</div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var header = document.querySelector('.site-header');
+        if (header) {
+          var bottom = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+          root.style.setProperty('--header-offset', bottom + 'px');
+        }
+        var y = window.scrollY || root.scrollTop;
+        var hero =
+          document.querySelector('.section--hero.section--hero-promo') ||
+          document.querySelector('.section--hero');
+        var bar = document.querySelector('.site-header__bar');
+        var pastHero = false;
+        if (hero && bar) {
+          var hr = hero.getBoundingClientRect();
+          var barH = bar.getBoundingClientRect().height;
+          pastHero = hr.bottom < barH + 2;
+        }
+        root.dataset.headerSurface = pastHero ? 'document' : 'hero';
+        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (window.innerWidth > 900) {
+          var t;
+          if (reduced) {
+            t = y > 48 ? 1 : 0;
+          } else {
+            t = Math.min(1, Math.max(0, y / 320));
+          }
+          root.style.setProperty('--header-shrink-t', String(t));
+        } else {
+          root.style.removeProperty('--header-shrink-t');
+        }
+      })();
+    </script>
+    <script src="js/main.js" type="module"></script>
+  </body>
+</html>
