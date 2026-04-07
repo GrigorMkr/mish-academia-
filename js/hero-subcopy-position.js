@@ -30,7 +30,6 @@ export function initHeroSubcopyPosition() {
 
   function syncPosition() {
     if (isCompact()) {
-      // Mobile/tablet: keep the layer inside the viewport; CSS handles base position.
       layer.style.left = '';
       layer.style.top = '';
       layer.style.maxWidth = '';
@@ -70,13 +69,12 @@ export function initHeroSubcopyPosition() {
     }
 
     if (isCompact()) {
-      // Match desktop behavior: hide when hero scrolls out.
-      const hr = hero.getBoundingClientRect();
-      const lr = layer.getBoundingClientRect();
-      const buffer = 12;
-      const show = hr.bottom > lr.top + buffer;
-      layer.classList.toggle(HIDDEN_CLASS, !show);
-      layer.setAttribute('aria-hidden', show ? 'false' : 'true');
+      const heroRect = hero.getBoundingClientRect();
+      const layerRect = layer.getBoundingClientRect();
+      const mobileBufferPx = 12;
+      const shouldShow = heroRect.bottom > layerRect.top + mobileBufferPx;
+      layer.classList.toggle(HIDDEN_CLASS, !shouldShow);
+      layer.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
       return;
     }
 

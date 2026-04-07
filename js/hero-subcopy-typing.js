@@ -21,34 +21,43 @@ async function typeRow(row, text, { charDelayMs }) {
 
 export function initHeroSubcopyTyping() {
   const layer = document.querySelector('.hero__subcopy--layer');
-  if (!layer) return;
+  if (!layer) {
+    return;
+  }
 
   const rows = Array.from(layer.querySelectorAll('.hero__subcopy-row'));
-  if (rows.length === 0) return;
+  if (rows.length === 0) {
+    return;
+  }
 
-  if (prefersReducedMotion()) return;
+  if (prefersReducedMotion()) {
+    return;
+  }
 
-  // Guard against double-init (e.g. HMR, re-imports).
-  if (layer.dataset.heroSubcopyTyped === 'true') return;
+  if (layer.dataset.heroSubcopyTyped === 'true') {
+    return;
+  }
   layer.dataset.heroSubcopyTyped = 'true';
 
   const texts = rows.map((r) => (r.textContent || '').replace(/\s+/g, ' ').trim());
-  if (texts.every((t) => t.length === 0)) return;
+  if (texts.every((t) => t.length === 0)) {
+    return;
+  }
 
-  // Freeze initial state so we can animate deterministically.
   rows.forEach((r) => {
     r.setAttribute('aria-live', 'off');
     r.textContent = '';
   });
 
   (async () => {
-    // Small delay so fonts/layout settle and the layer is positioned.
     await sleep(250);
 
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i];
       const text = texts[i];
-      if (!text) continue;
+      if (!text) {
+        continue;
+      }
 
       await typeRow(row, text, { charDelayMs: 22 });
       await sleep(i === rows.length - 1 ? 0 : 180);

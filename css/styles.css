@@ -272,6 +272,7 @@ img {
   line-height: 1.4;
   cursor: pointer;
   text-align: center;
+  transition: filter 0.15s ease, opacity 0.15s ease;
 }
 
 .btn:hover {
@@ -847,14 +848,13 @@ html[data-header-surface="document"] .site-header__burger-line {
   white-space: nowrap;
 }
 
-/* Typing animation (hero title) */
 .hero-glass__title-line {
   display: inline-block;
   position: relative;
 }
 
 .hero-glass__title-line--typing::after {
-  content: '';
+  content: "";
   display: inline-block;
   width: 0.85ch;
   height: 1em;
@@ -869,6 +869,7 @@ html[data-header-surface="document"] .site-header__burger-line {
   49% {
     opacity: 1;
   }
+
   50%,
   100% {
     opacity: 0;
@@ -1074,7 +1075,7 @@ html[data-header-surface="document"] .site-header__burger-line {
 }
 
 .hero__subcopy-row--typing::after {
-  content: '';
+  content: "";
   display: inline-block;
   width: 0.85ch;
   height: 1em;
@@ -1089,6 +1090,7 @@ html[data-header-surface="document"] .site-header__burger-line {
   49% {
     opacity: 1;
   }
+
   50%,
   100% {
     opacity: 0;
@@ -1161,17 +1163,13 @@ html[data-header-surface="document"] .site-header__burger-line {
 }
 
 @media (max-width: 480px) {
-  /* On 480, keep the subcopy inside the viewport. JS controls hide/show like desktop. */
   .hero__subcopy--layer {
     position: fixed;
-    left: 15px !important;
-    right: 15px !important;
-    top: auto !important;
-    bottom: 24px !important;
+    inset: auto 15px 24px;
     width: auto;
     max-width: 450px;
     margin: 0;
-    transform: none !important;
+    transform: none;
     z-index: 44;
   }
 }
@@ -2228,22 +2226,6 @@ html[data-header-surface="document"] .site-header__burger-line {
   gap: 35px;
 }
 
-.community__line {
-  display: block;
-  position: relative;
-  height: 0;
-  width: 1360px;
-}
-
-.community__line img {
-  position: absolute;
-  left: 0;
-  top: -1px;
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
 .community-students {
   position: relative;
   width: 100%;
@@ -3131,16 +3113,13 @@ html[data-header-surface="document"] .site-header__burger-line {
   display: block;
 }
 
-/* `cert-only.png` has dark corner pixels from the source screenshot. Clip them out. */
 .footer-cert__right > .footer-cert__layer {
   border-radius: 16.18px;
-  /* Crop a few pixels to remove screenshot corner artifacts. */
   clip-path: inset(6px round 16.18px);
   object-fit: cover;
   transform: scale(1.02);
 }
 
-/* Prevent partial layer paint flicker on refresh: show layers only when ready. */
 .footer-cert__card.footer-cert__card--anim:not(.footer-cert__card--assets-ready) .footer-cert__layer {
   opacity: 0;
 }
@@ -3929,16 +3908,6 @@ html[data-header-surface="document"] .site-header__burger-line {
     box-sizing: border-box;
   }
 
-  .community__line {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .community__line img {
-    width: 100%;
-    height: auto;
-  }
-
   .community-students {
     width: 100%;
     max-width: 608px;
@@ -4621,7 +4590,6 @@ html[data-header-surface="document"] .site-header__burger-line {
   }
 
   html.layout--fluid .section--hero.section--hero-promo {
-    /* Preserve hero zone height for fixed overlays (typing + subcopy). */
     min-height: min(82vh, 820px);
     overflow: visible;
   }
@@ -4786,16 +4754,6 @@ html[data-header-surface="document"] .site-header__burger-line {
     gap: clamp(24px, 4vw, 35px);
     box-sizing: border-box;
     align-items: flex-start;
-  }
-
-  html.layout--fluid .community__line {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  html.layout--fluid .community__line img {
-    width: 100%;
-    height: auto;
   }
 
   html.layout--fluid .community-students {
@@ -6209,10 +6167,6 @@ html[data-header-surface="document"] .site-header__burger-line {
     padding: 0 15px;
     gap: 30px;
     box-sizing: border-box;
-  }
-
-  .community__line {
-    width: 100%;
   }
 
   .community-students {

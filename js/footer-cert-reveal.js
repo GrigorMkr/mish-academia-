@@ -8,8 +8,6 @@ export function initFooterCertReveal() {
     return;
   }
 
-  // Ensure we never animate from a "visible" first paint into the hidden state.
-  // The base HTML can include these classes, but we enforce them here too.
   card.classList.add('footer-cert__card--anim', 'footer-cert__card--instant');
 
   const settleInstant = () => {
@@ -22,14 +20,12 @@ export function initFooterCertReveal() {
     return r.bottom > 0 && r.top < vh * 0.9;
   };
 
-  // Set a deterministic initial state before IntersectionObserver callback runs.
   if (isInitiallyInView()) {
     card.classList.add('footer-cert__card--revealed');
   } else {
     card.classList.remove('footer-cert__card--revealed');
   }
 
-  // Avoid refresh flicker: wait until the certificate image is decoded.
   const img = card.querySelector('.footer-cert__right img.footer-cert__layer');
   const settleAssetsReady = () => card.classList.add('footer-cert__card--assets-ready');
 
