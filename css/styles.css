@@ -70,9 +70,15 @@
   --header-bg: rgb(255 255 255 / 0.7);
   --header-border: rgb(13 22 39 / 0.1);
   --page-w: 1440px;
+  --page-gutter: max(0px, calc((100vw - var(--page-w)) / 2));
   --content-max: 1360px;
   --about-desktop-ref: 1100;
   --about-desktop-card-min-h: 500px;
+
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
 }
 
 @supports (height: 1lvh) {
@@ -806,6 +812,17 @@ html[data-header-surface="document"] .site-header__burger-line {
 
   .hero-glass--circle {
     margin-left: -16px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .hero__grid-sticky-wrap {
+    padding-left: calc(var(--page-gutter) + clamp(18px, 3.8vw, 56px));
+    padding-right: calc(var(--page-gutter) + clamp(48px, 7vw, 100px));
+  }
+
+  .hero__subcopy--layer {
+    left: calc(var(--page-gutter) + clamp(48px, 7vw, 100px));
   }
 }
 
@@ -3482,8 +3499,6 @@ html[data-header-surface="document"] .site-header__burger-line {
     --header-offset: 101px;
 
     --menu-sheet-white-h: 250px;
-
-    /* Mobile/tablet: keep video focal point centered under header logo */
     --header-bar-video-pos-x: 50%;
     --header-bar-video-pos-y: 50%;
   }
@@ -4732,7 +4747,7 @@ html[data-header-surface="document"] .site-header__burger-line {
   html.layout--fluid .site-header__inner {
     max-width: none;
     min-height: 0;
-    padding: 16px 15px;
+    padding: calc(16px + var(--safe-top)) calc(15px + var(--safe-right)) 16px calc(15px + var(--safe-left));
     box-sizing: border-box;
   }
 
