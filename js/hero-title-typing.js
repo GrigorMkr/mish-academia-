@@ -9,7 +9,6 @@ function sleep(ms) {
 async function typeLine(el, text, { charDelayMs }) {
   el.classList.add('hero-glass__title-line--typing');
   el.textContent = '';
-  el.setAttribute('aria-label', text);
 
   for (let i = 0; i <= text.length; i++) {
     el.textContent = text.slice(0, i);
@@ -60,4 +59,3 @@ export function initHeroTitleTyping() {
     }
   })();
 }
-

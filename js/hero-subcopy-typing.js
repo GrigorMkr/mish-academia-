@@ -9,7 +9,6 @@ function sleep(ms) {
 async function typeRow(row, text, { charDelayMs }) {
   row.classList.add('hero__subcopy-row--typing');
   row.textContent = '';
-  row.setAttribute('aria-label', text);
 
   for (let i = 0; i <= text.length; i++) {
     row.textContent = text.slice(0, i);
@@ -45,7 +44,6 @@ export function initHeroSubcopyTyping() {
   }
 
   rows.forEach((r) => {
-    r.setAttribute('aria-live', 'off');
     r.textContent = '';
   });
 
@@ -64,4 +62,3 @@ export function initHeroSubcopyTyping() {
     }
   })();
 }
-
