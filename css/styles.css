@@ -66,7 +66,7 @@
 
   --header-bar-video-pos-y: 120%;
 
-  --site-stack-video-h: min(165vh, 1500px);
+  --site-stack-video-h: min(165vmin, 1500px);
   --header-bg: rgb(255 255 255 / 0.7);
   --header-border: rgb(13 22 39 / 0.1);
   --page-w: 1440px;
@@ -84,7 +84,6 @@
 @supports (height: 1lvh) {
   :root {
     --header-bar-expanded-min: min(72lvh, 780px);
-    --site-stack-video-h: min(165lvh, 1500px);
   }
 }
 
@@ -161,6 +160,25 @@ body {
   object-position: var(--header-bar-video-pos-x) var(--header-bar-video-pos-y);
   pointer-events: none;
   transform: translateZ(0);
+}
+
+@media (max-width: 1366px) and (max-height: 800px) and (min-width: 901px) {
+  :root {
+    --header-bar-video-pos-x: 50%;
+    --header-bar-video-pos-y: 50%;
+    --site-stack-video-h: min(125vmin, 1050px);
+    --site-stack-video-cover-zoom: 1.12;
+  }
+
+  .site-stack-video__el {
+    inset: auto;
+    left: 50%;
+    top: 50%;
+    width: calc(100% * var(--site-stack-video-cover-zoom));
+    height: calc(100% * var(--site-stack-video-cover-zoom));
+    max-width: none;
+    transform: translate(-50%, -50%) translateZ(0);
+  }
 }
 
 html[data-header-surface="document"] .site-stack-video {
@@ -808,6 +826,7 @@ html[data-header-surface="document"] .site-header__burger-line {
 @media (min-width: 901px) {
   .hero__grid-sticky-wrap {
     padding-left: clamp(18px, 3.8vw, 56px);
+    padding-top: calc(clamp(40px, 5vw, 56px) + clamp(40px, 4.5vh, 72px));
   }
 
   .hero-glass--circle {
@@ -857,23 +876,25 @@ html[data-header-surface="document"] .site-header__burger-line {
 
   margin-top: clamp(28px, 5.5vh, 76px);
   isolation: isolate;
-  border: 1px solid rgb(255 255 255 / 0.15);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.06),
+    0 20px 56px rgb(10 28 62 / 0.03),
+    0 8px 22px rgb(20 45 95 / 0.02),
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    inset 1px 1px 0 rgb(255 255 255 / 0.12),
+    inset 0 -1px 0 rgb(0 18 45 / 0.22),
+    inset 0 -12px 28px rgb(55 85 130 / 0.06),
+    inset 0 -6px 20px rgb(255 185 168 / 0.04);
   background:
     linear-gradient(
       218deg,
-      rgb(255 255 255 / 0.11) 0%,
-      rgb(232 240 252 / 0.05) 32%,
-      rgb(215 228 248 / 0.03) 62%,
-      rgb(200 218 242 / 0.05) 100%
+      rgb(255 255 255 / 0.02) 0%,
+      rgb(232 240 252 / 0.01) 32%,
+      rgb(215 228 248 / 0.01) 62%,
+      rgb(200 218 242 / 0.01) 100%
     );
-  backdrop-filter: blur(24px) saturate(1.18);
-  box-shadow:
-    0 40px 96px rgb(10 28 62 / 0.07),
-    0 16px 36px rgb(20 45 95 / 0.04),
-    inset 0 2px 3px rgb(255 255 255 / 0.22),
-    inset 2px 2px 1px rgb(255 255 255 / 0.1),
-    inset 0 -4px 20px rgb(55 85 130 / 0.03),
-    inset 0 -14px 32px rgb(255 185 168 / 0.04);
+  backdrop-filter: blur(14px) saturate(1.03);
 }
 
 .hero-glass__title {
@@ -986,23 +1007,35 @@ html[data-header-surface="document"] .site-header__burger-line {
   transform-origin: left bottom;
   border-radius: 28px;
   isolation: isolate;
-  border: 1px solid rgb(255 255 255 / 0.15);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.06),
+    0 20px 56px rgb(10 28 62 / 0.03),
+    0 8px 22px rgb(20 45 95 / 0.02),
+    inset 0 1px 0 rgb(255 255 255 / 0.28),
+    inset 1px 1px 0 rgb(255 255 255 / 0.12),
+    inset 0 -1px 0 rgb(0 18 45 / 0.22),
+    inset 0 -12px 28px rgb(55 85 130 / 0.06),
+    inset 0 -6px 20px rgb(255 185 168 / 0.04);
   background:
     linear-gradient(
       218deg,
-      rgb(255 255 255 / 0.11) 0%,
-      rgb(232 240 252 / 0.05) 32%,
-      rgb(215 228 248 / 0.03) 62%,
-      rgb(200 218 242 / 0.05) 100%
+      rgb(255 255 255 / 0.02) 0%,
+      rgb(232 240 252 / 0.01) 32%,
+      rgb(215 228 248 / 0.01) 62%,
+      rgb(200 218 242 / 0.01) 100%
     );
-  backdrop-filter: blur(24px) saturate(1.18);
-  box-shadow:
-    0 40px 96px rgb(10 28 62 / 0.07),
-    0 16px 36px rgb(20 45 95 / 0.04),
-    inset 0 2px 3px rgb(255 255 255 / 0.22),
-    inset 2px 2px 1px rgb(255 255 255 / 0.1),
-    inset 0 -4px 20px rgb(55 85 130 / 0.03),
-    inset 0 -14px 32px rgb(255 185 168 / 0.04);
+  backdrop-filter: blur(14px) saturate(1.03);
+}
+
+@media (min-width: 901px) {
+  .hero-glass--circle {
+    margin-top: calc(clamp(28px, 5.5vh, 76px) + clamp(44px, 5.5vh, 80px));
+  }
+
+  .hero-glass--panel {
+    transform: translate(172px, calc(176px + clamp(84px, 9vh, 136px))) rotate(-15deg);
+  }
 }
 
 .hero-panel {

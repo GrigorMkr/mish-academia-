@@ -1,4 +1,4 @@
-const PLAYBACK_RATE = 0.26;
+const PLAYBACK_RATE = 1;
 
 function tryPlay(video) {
   if (!video || video.hidden || video.error) {
