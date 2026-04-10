@@ -38,6 +38,15 @@
   --font-pin: var(--font-body);
 
   --container-pad-x: clamp(16px, 3.5vw, 40px);
+  /* Лёгкий сдвиг контента влево: меньше поле слева, больше справа (сумма прежняя) — правый край не упирается */
+  --layout-pad-shift-x: 6px;
+  --container-pad-x-left: max(10px, calc(var(--container-pad-x) - var(--layout-pad-shift-x)));
+  --container-pad-x-right: calc(var(--container-pad-x) + var(--layout-pad-shift-x));
+  --gutter-pad-x: clamp(20px, 4vw, 40px);
+  --gutter-pad-x-left: max(14px, calc(var(--gutter-pad-x) - var(--layout-pad-shift-x)));
+  --gutter-pad-x-right: calc(var(--gutter-pad-x) + var(--layout-pad-shift-x));
+  --page-edge-x-left: 12px;
+  --page-edge-x-right: 18px;
 
   --fs-h2: clamp(34px, 2.9vw, 55px);
   --fs-h3: clamp(24px, 2.2vw, 34px);
@@ -165,6 +174,16 @@ body {
   object-position: var(--header-bar-video-pos-x) var(--header-bar-video-pos-y);
   pointer-events: none;
   transform: translateZ(0);
+}
+
+/* Раскрытый навбар: кадр фонового видео по центру (на всех ширинах) */
+.site-header--bar-pinned-expanded .site-header__bar {
+  --header-bar-video-pos-x: 50%;
+  --header-bar-video-pos-y: 50%;
+}
+
+.site-header--bar-pinned-expanded .site-stack-video__el {
+  object-position: center center;
 }
 
 @media (min-width: 901px) {
@@ -539,7 +558,7 @@ html[data-header-surface="document"] .site-header {
   max-width: var(--page-w);
   min-height: var(--header-h);
   margin: 0 auto;
-  padding: var(--header-pad-y) var(--header-pad-x);
+  padding: var(--header-pad-y) var(--container-pad-x-right) var(--header-pad-y) var(--container-pad-x-left);
   box-sizing: border-box;
   overflow: visible;
 }
@@ -551,6 +570,10 @@ html[data-header-surface="document"] .site-header {
   .site-header__cta,
   .site-header__burger {
     pointer-events: auto;
+  }
+
+  .site-header__nav > .site-header__nav-visual {
+    display: none;
   }
 }
 
@@ -591,7 +614,7 @@ html[data-header-surface="document"] .site-header {
 
 @media (min-width: 901px) {
   .site-header__inner {
-    padding: var(--header-pad-y) var(--header-pad-x);
+    padding: var(--header-pad-y) var(--container-pad-x-right) var(--header-pad-y) var(--container-pad-x-left);
   }
 }
 
@@ -904,8 +927,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 .section__inner {
   max-width: 1360px;
   margin: 0 auto;
-  padding-left: var(--container-pad-x);
-  padding-right: var(--container-pad-x);
+  padding-left: var(--container-pad-x-left);
+  padding-right: var(--container-pad-x-right);
 }
 
 .section--hero {
@@ -1379,8 +1402,10 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     justify-items: start;
     text-align: left;
     padding:
-      calc(var(--header-offset) + clamp(8px, 2.5vw, 16px)) clamp(20px, 5vw, 32px)
-      clamp(28px, 4vw, 40px);
+      calc(var(--header-offset) + clamp(8px, 2.5vw, 16px))
+      max(16px, calc(clamp(20px, 5vw, 32px) + 4px))
+      clamp(28px, 4vw, 40px)
+      max(14px, calc(clamp(20px, 5vw, 32px) - 4px));
     row-gap: clamp(14px, 18px, 22px);
     width: 100%;
     max-width: none;
@@ -1432,7 +1457,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 @media (max-width: 480px) {
   .hero__subcopy--layer {
     position: fixed;
-    inset: auto 15px 24px;
+    inset: auto var(--page-edge-x-right) 24px var(--page-edge-x-left);
     width: auto;
     max-width: 450px;
     margin: 0;
@@ -1442,8 +1467,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
   .site-header__hero-visual .hero__subcopy--layer {
     position: absolute;
-    left: 15px;
-    right: 15px;
+    left: var(--page-edge-x-left);
+    right: var(--page-edge-x-right);
     bottom: 20px;
     width: auto;
     max-width: 450px;
@@ -1720,8 +1745,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 }
 
 .section__inner--about {
-  padding-left: var(--container-pad-x);
-  padding-right: var(--container-pad-x);
+  padding-left: var(--container-pad-x-left);
+  padding-right: var(--container-pad-x-right);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -2681,7 +2706,11 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   max-width: min(var(--content-max), 100%);
   margin: 0 auto;
   height: auto;
-  padding: clamp(48px, 6vw, 60px) clamp(20px, 4vw, 40px) clamp(72px, 10vw, 120px);
+  padding:
+    clamp(48px, 6vw, 60px)
+    var(--gutter-pad-x-right)
+    clamp(72px, 10vw, 120px)
+    var(--gutter-pad-x-left);
   display: flex;
   flex-direction: column;
   gap: clamp(32px, 5vw, 50px);
@@ -3276,7 +3305,11 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   max-width: 100%;
   height: auto;
   margin: 0 auto;
-  padding: clamp(40px, 6vw, 80px) clamp(20px, 4vw, 40px) clamp(32px, 5vw, 48px);
+  padding:
+    clamp(40px, 6vw, 80px)
+    var(--gutter-pad-x-right)
+    clamp(32px, 5vw, 48px)
+    var(--gutter-pad-x-left);
   background: var(--color-white);
   box-sizing: border-box;
   min-height: 500px;
@@ -3308,7 +3341,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   border-radius: 32px;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   gap: clamp(28px, 4vw, 48px) clamp(24px, 3vw, 40px);
   box-sizing: border-box;
@@ -3350,6 +3383,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   line-height: 1;
   letter-spacing: 0;
   color: var(--color-text);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .footer-cert__desc {
@@ -3359,6 +3394,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   font-size: 18px;
   line-height: 1.4;
   color: var(--color-text-muted);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .footer-cert__btn {
@@ -3374,10 +3411,10 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   max-width: none;
   height: auto;
   min-height: 220px;
-  aspect-ratio: 660 / 440;
+  aspect-ratio: 16 / 9;
   border-radius: 16.18px;
   justify-self: stretch;
-  background: #ffffff;
+  background: var(--color-light);
 }
 
 .footer-cert__right picture {
@@ -3425,10 +3462,9 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 }
 
 .footer-cert__right > .footer-cert__layer {
-  border-radius: 16.18px;
-  clip-path: inset(6px round 16.18px);
-  object-fit: cover;
-  transform: scale(1.02);
+  border-radius: inherit;
+  object-fit: contain;
+  object-position: center center;
 }
 
 .footer-cert__card.footer-cert__card--anim:not(.footer-cert__card--assets-ready) .footer-cert__layer {
@@ -3486,7 +3522,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   flex-direction: column;
   gap: 40px;
   background: #0d1627;
-  padding: clamp(56px, 8vw, 90px) clamp(20px, 4vw, 40px);
+  padding: clamp(56px, 8vw, 90px) var(--gutter-pad-x-right) clamp(56px, 8vw, 90px) var(--gutter-pad-x-left);
   color: var(--color-white);
   box-sizing: border-box;
 }
@@ -3552,7 +3588,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   flex-direction: column;
   gap: 90px;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
-  padding: clamp(32px, 5vw, 40px) clamp(20px, 4vw, 40px);
+  padding: clamp(32px, 5vw, 40px) var(--gutter-pad-x-right) clamp(32px, 5vw, 40px) var(--gutter-pad-x-left);
   background: #0d1627;
   color: var(--color-white);
   overflow: hidden;
@@ -3760,7 +3796,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     --header-h: 101px;
     --header-offset: 101px;
 
-    --menu-sheet-white-h: 250px;
+    --menu-sheet-white-h: min(460px, 82vh);
     --header-bar-video-pos-x: 50%;
     --header-bar-video-pos-y: 50%;
     --header-bar-expanded-min: min(92vh, 860px);
@@ -3806,7 +3842,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
 
   .site-header__start {
-    flex: 1 0 0;
+    flex: 1 1 auto;
     min-width: 0;
     align-self: center;
     padding-top: 3px;
@@ -3814,6 +3850,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
   .site-header__end {
     flex: 0 0 auto;
+    flex-shrink: 0;
     justify-content: flex-end;
     align-items: center;
     gap: 0;
@@ -3857,13 +3894,15 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     right: 0;
     width: 100%;
     min-height: calc(var(--menu-sheet-white-h) - var(--header-offset));
-    padding: 30px 15px 20px;
+    padding: 30px var(--page-edge-x-right) 20px var(--page-edge-x-left);
     margin: 0;
     flex: none;
     flex-shrink: 1;
     background: transparent;
     box-sizing: border-box;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     pointer-events: none;
     visibility: hidden;
     opacity: 0;
@@ -3885,6 +3924,98 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     letter-spacing: 0;
     color: var(--color-text);
     text-shadow: none;
+  }
+
+  /* Круг + «окно» в выпадающем меню (≤900px) */
+  .site-header__nav-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(12px, 3.5vw, 20px);
+    width: 100%;
+    max-width: 100%;
+    margin: 0 0 6px;
+    padding-bottom: 2px;
+    box-sizing: border-box;
+  }
+
+  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle {
+    grid-column: auto;
+    grid-row: auto;
+    position: relative;
+    inset: auto;
+    place-self: auto;
+    margin: 0;
+    margin-top: 0;
+    padding: clamp(12px, 3vw, 18px) clamp(16px, 4vw, 24px) clamp(18px, 4vw, 26px) 0;
+    width: min(100%, 220px);
+    max-width: 100%;
+    aspect-ratio: 1;
+    gap: clamp(10px, 2.8vw, 18px);
+  }
+
+  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__title {
+    font-size: clamp(13px, 3.6vw, 20px);
+    line-height: 1.14;
+  }
+
+  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__title-line--1,
+  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__title-line--2 {
+    white-space: normal;
+  }
+
+  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__cta {
+    padding: 7px 14px 8px;
+    font-size: 12px;
+  }
+
+  .site-header__nav .hero-glass--nav-sheet.hero-glass--panel {
+    grid-column: auto;
+    grid-row: auto;
+    position: relative;
+    inset: auto;
+    place-self: auto;
+    margin: 0;
+    margin-left: 0;
+    margin-bottom: 0;
+    width: min(100%, 280px);
+    max-width: 100%;
+    padding: 18px 20px 22px;
+    transform: rotate(-11deg);
+    transform-origin: left center;
+  }
+
+  .site-header__nav .hero-glass--nav-sheet.hero-glass--panel .hero-panel {
+    gap: 18px;
+  }
+
+  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-glass__title {
+    color: var(--color-text);
+    text-shadow: 0 1px 0 rgb(255 255 255 / 0.55);
+  }
+
+  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-glass {
+    border-color: rgb(13 22 39 / 0.14);
+    background: rgb(255 255 255 / 0.55);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.65),
+      0 12px 36px rgb(13 22 39 / 0.06);
+  }
+
+  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-panel__dot {
+    background: rgb(13 22 39 / 0.25);
+  }
+
+  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-panel__row {
+    background: rgb(13 22 39 / 0.1);
+  }
+
+  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-panel__chart path {
+    stroke: rgb(13 22 39 / 0.42);
+  }
+
+  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual a.btn.hero-glass__cta {
+    color: var(--color-text);
   }
 
   .site-header--menu-open .site-header__nav {
@@ -4028,24 +4159,27 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 @media (max-width: 480px) {
   :root {
     --header-bar-video-pos-x: 50%;
-    --header-bar-video-pos-y: 6%;
+    --header-bar-video-pos-y: 50%;
+    --page-edge-x-left: 11px;
+    --page-edge-x-right: 19px;
   }
 
   .hero__grid-sticky-wrap {
     padding-top: calc(var(--header-offset) + 2px);
-    padding-left: 6px;
-    padding-right: 15px;
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
   }
 
+  /* 300–480: видео заполняет полосу бара (cover), без contain+scale — иначе «выпадает» из нав/хедера */
   .site-stack-video {
-    background: transparent;
+    background: rgb(8 22 52);
   }
 
   .site-stack-video__el {
-    object-fit: contain;
-    object-position: 50% 0%;
-    transform-origin: top center;
-    transform: translateY(clamp(-72px, -11vh, -34px)) scale(1.18);
+    object-fit: cover;
+    object-position: var(--header-bar-video-pos-x) var(--header-bar-video-pos-y);
+    transform-origin: center center;
+    transform: translateZ(0);
   }
 
   .hero-glass--circle,
@@ -4183,8 +4317,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .section__inner {
     max-width: 100%;
     margin: 0;
-    padding-left: clamp(20px, 4vw, 40px);
-    padding-right: clamp(20px, 4vw, 40px);
+    padding-left: var(--gutter-pad-x-left);
+    padding-right: var(--gutter-pad-x-right);
     box-sizing: border-box;
   }
 
@@ -4192,7 +4326,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .site-header__inner {
     max-width: none;
     min-height: 0;
-    padding: 16px 15px;
+    padding: 16px var(--page-edge-x-right) 16px var(--page-edge-x-left);
     box-sizing: border-box;
   }
 
@@ -4205,7 +4339,11 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     max-width: 100%;
     height: auto;
     min-height: clamp(520px, 75vh, 760px);
-    padding: clamp(32px, 5vw, 48px) clamp(20px, 4vw, var(--header-pad-x)) clamp(48px, 6vw, 72px);
+    padding:
+      clamp(32px, 5vw, 48px)
+      var(--gutter-pad-x-right)
+      clamp(48px, 6vw, 72px)
+      var(--gutter-pad-x-left);
     box-sizing: border-box;
     overflow: visible;
   }
@@ -4451,7 +4589,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .footer-cert__left {
@@ -4463,6 +4601,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .footer-cert__right {
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     min-height: 220px;
     height: auto;
   }
@@ -4505,7 +4644,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     max-width: min(920px, 100%);
     margin: 0 auto;
     height: auto;
-    padding: 60px 15px;
+    padding: 60px var(--page-edge-x-right) 60px var(--page-edge-x-left);
     gap: 30px;
     box-sizing: border-box;
   }
@@ -4689,7 +4828,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     z-index: 2;
     width: 100%;
     max-width: none;
-    padding: 0 15px 60px;
+    padding: 0 var(--page-edge-x-right) 60px var(--page-edge-x-left);
     margin-bottom: 0;
     box-sizing: border-box;
     gap: 25px;
@@ -5064,15 +5203,15 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   html.layout--fluid .section__inner {
     max-width: 100%;
     margin: 0;
-    padding-left: clamp(20px, 4vw, 40px);
-    padding-right: clamp(20px, 4vw, 40px);
+    padding-left: var(--gutter-pad-x-left);
+    padding-right: var(--gutter-pad-x-right);
     box-sizing: border-box;
   }
 
   @media (min-width: 1200px) {
     html.layout--fluid .section__inner.section__inner--about {
-      padding-left: var(--container-pad-x);
-      padding-right: var(--container-pad-x);
+      padding-left: var(--container-pad-x-left);
+      padding-right: var(--container-pad-x-right);
       max-width: 1440px;
       margin: 0 auto;
     }
@@ -5089,13 +5228,17 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     margin-left: auto;
     margin-right: auto;
     min-height: 0;
-    padding: calc(16px + var(--safe-top)) calc(15px + var(--safe-right)) 16px calc(15px + var(--safe-left));
+    padding:
+      calc(16px + var(--safe-top))
+      calc(var(--page-edge-x-right) + var(--safe-right))
+      16px
+      calc(var(--page-edge-x-left) + var(--safe-left));
     box-sizing: border-box;
   }
 
   @media (min-width: 901px) {
     html.layout--fluid .site-header__inner {
-      padding: var(--header-pad-y) var(--header-pad-x);
+      padding: var(--header-pad-y) var(--container-pad-x-right) var(--header-pad-y) var(--container-pad-x-left);
     }
   }
 
@@ -5108,7 +5251,11 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     max-width: 100%;
     height: auto;
     min-height: clamp(520px, 75vh, 760px);
-    padding: clamp(32px, 5vw, 48px) clamp(20px, 4vw, 40px) clamp(48px, 6vw, 72px);
+    padding:
+      clamp(32px, 5vw, 48px)
+      var(--gutter-pad-x-right)
+      clamp(48px, 6vw, 72px)
+      var(--gutter-pad-x-left);
     box-sizing: border-box;
     overflow: visible;
   }
@@ -5344,7 +5491,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
   @media (max-width: 900px) {
     html.layout--fluid .price {
-      padding: 60px 15px;
+      padding: 60px var(--page-edge-x-right) 60px var(--page-edge-x-left);
       gap: 30px;
     }
 
@@ -5487,7 +5634,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     margin-left: auto;
     margin-right: auto;
     box-sizing: border-box;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   html.layout--fluid .footer-cert__left {
@@ -5499,6 +5646,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   html.layout--fluid .footer-cert__right {
     width: 100%;
     max-width: 100%;
+    min-width: 0;
     min-height: 220px;
     height: auto;
   }
@@ -5969,9 +6117,9 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     max-width: 1360px;
     margin-left: auto;
     margin-right: auto;
-    grid-template-columns: minmax(0, 487px) minmax(0, 660px);
-    justify-content: space-between;
-    gap: 60px 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: clamp(24px, 4vw, 48px) clamp(20px, 3vw, 40px);
     align-items: center;
   }
 }
@@ -6152,9 +6300,18 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     overflow-x: hidden;
   }
 
+  body {
+    overflow-x: clip;
+  }
+
+  .page-shell {
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
   .page {
     width: 100%;
-    max-width: 480px;
+    max-width: min(480px, 100%);
     margin: 0 auto;
     padding-top: 0;
     height: auto;
@@ -6186,8 +6343,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .section__inner {
     max-width: 100%;
     margin: 0;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
     box-sizing: border-box;
   }
 
@@ -6204,7 +6361,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
   .site-header__inner {
     min-height: 0;
-    padding: 16px 15px;
+    padding: 16px var(--page-edge-x-right) 16px var(--page-edge-x-left);
     gap: var(--header-column-gap);
     max-width: 100%;
     box-sizing: border-box;
@@ -6218,7 +6375,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     margin: 0 auto;
     height: auto;
     min-height: calc(40px + 669px + 61px);
-    padding: 40px 15px 61px;
+    padding: 40px var(--page-edge-x-right) 61px var(--page-edge-x-left);
     box-sizing: border-box;
     overflow: visible;
     gap: 0;
@@ -6228,7 +6385,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   html.layout--fluid .hero.hero--promo:not(.site-header__hero-visual) {
     max-width: 100%;
     min-height: unset;
-    padding: 28px 15px 44px;
+    padding: 28px var(--page-edge-x-right) 44px var(--page-edge-x-left);
     overflow: visible;
   }
 
@@ -6365,8 +6522,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .section__inner--about {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
     gap: 40px;
   }
 
@@ -6387,7 +6544,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .about__mosaic {
-    max-width: 450px;
+    width: 100%;
+    max-width: min(450px, 100%);
     gap: 15px;
     padding-bottom: 0;
   }
@@ -6396,9 +6554,12 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .about-card--lime,
   .about-card--deep,
   .about-card--muted {
-    max-width: 450px;
+    width: 100%;
+    max-width: 100%;
     min-height: 600px;
     margin: 0;
+    box-sizing: border-box;
+    overflow-x: clip;
   }
 
   .about-card__copy {
@@ -6428,9 +6589,10 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     right: 0;
     left: auto;
     z-index: 1;
-    width: 390px;
-    max-width: 390px;
-    height: 442px;
+    width: min(390px, 100%);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 390 / 442;
     min-height: 0;
     margin: 0;
     overflow: visible;
@@ -6538,13 +6700,13 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     top: 210px;
     right: -80px;
     left: auto;
-    width: 364px;
-    max-width: none;
-    height: 413px;
+    width: min(364px, 100%);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 364 / 413;
     min-height: 0;
     max-height: none;
     margin: 0;
-    aspect-ratio: auto;
     overflow: hidden;
     z-index: 1;
   }
@@ -6553,9 +6715,10 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   html.layout--fluid .about-card--lime .about-card__photo-box {
     position: absolute;
     inset: auto auto 0 -25px;
-    width: 364px;
-    height: 404px;
-    max-width: none;
+    width: min(364px, 100%);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 364 / 404;
   }
 
   .about-card--lime .about-card__img-crop,
@@ -6592,14 +6755,15 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .about-card__seal-clip {
-    transform: scale(0.82);
-    transform-origin: top center;
     left: 50%;
-    margin-left: -235.5px;
     top: 0;
-    width: 471px;
-    height: 500px;
-    max-width: none;
+    width: min(471px, 100%);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 471 / 500;
+    margin-left: 0;
+    transform: translateX(-50%) scale(0.82);
+    transform-origin: top center;
   }
 
   .section--community {
@@ -6612,16 +6776,16 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     top: auto;
     transform: none;
     width: 100%;
-    max-width: 480px;
+    max-width: min(480px, 100%);
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 var(--page-edge-x-right) 0 var(--page-edge-x-left);
     gap: 30px;
     box-sizing: border-box;
   }
 
   .community-students {
     width: 100%;
-    max-width: 451px;
+    max-width: 100%;
     margin: 0 auto;
     height: 144px;
     border-radius: 32px;
@@ -6706,8 +6870,9 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
 
   .price {
-    max-width: 480px;
-    padding: 60px 15px;
+    max-width: 100%;
+    padding: 60px var(--page-edge-x-right) 60px var(--page-edge-x-left);
+    box-sizing: border-box;
   }
 
   .site-footer {
@@ -6715,7 +6880,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     left: auto;
     top: auto;
     width: 100%;
-    max-width: 480px;
+    max-width: min(480px, 100%);
     margin: 0 auto;
     height: auto;
     min-height: 0;
@@ -6738,24 +6903,26 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     position: relative;
     left: auto;
     top: auto;
-    width: 480px;
+    width: 100%;
     max-width: 100%;
     margin: 0 auto;
-    height: 496px;
-    padding: 30px 15px 0;
-    display: block;
+    height: auto;
+    min-height: 0;
+    padding: 30px var(--page-edge-x-right) 32px var(--page-edge-x-left);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     border-radius: 0;
     overflow: visible;
-    gap: 32px;
     background: var(--color-light);
   }
 
   .footer-cert__left {
-    position: absolute;
-    left: 15px;
-    top: 30px;
-    width: 450px;
-    max-width: calc(100% - 30px);
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 100%;
     z-index: 2;
   }
 
@@ -6776,22 +6943,27 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
 
   .footer-cert__right {
-    position: absolute;
-    left: 15px;
-    top: 346px;
-    width: 448px;
-    max-width: calc(100% - 30px);
-    height: 300px;
+    position: relative;
+    left: auto;
+    top: auto;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
     border-radius: 16px;
     overflow: hidden;
-    aspect-ratio: auto;
-    justify-self: start;
+    justify-self: stretch;
     z-index: 1;
   }
 
   .footer-form {
     margin-top: 0;
-    padding: 240px 15px 90px;
+    padding:
+      clamp(48px, 10vw, 72px)
+      var(--page-edge-x-right)
+      90px
+      var(--page-edge-x-left);
     gap: 40px;
     box-sizing: border-box;
   }
@@ -6823,7 +6995,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
   .footer-bottom {
     height: 534px;
-    padding: 40px 15px;
+    padding: 40px var(--page-edge-x-right) 40px var(--page-edge-x-left);
     overflow: clip;
   }
 
@@ -6852,6 +7024,64 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .footer-copy {
-    white-space: nowrap;
+    white-space: normal;
+  }
+
+  .work,
+  html.layout--fluid .work {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 380px) {
+  :root {
+    --page-edge-x-left: 10px;
+    --page-edge-x-right: 18px;
+  }
+
+  .section__inner {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .section__inner--about {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .price {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .footer-form {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .footer-bottom {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .site-header__inner {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .community {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .hero.hero--promo:not(.site-header__hero-visual),
+  html.layout--fluid .hero.hero--promo:not(.site-header__hero-visual) {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
+  }
+
+  .footer-cert__card {
+    padding-left: var(--page-edge-x-left);
+    padding-right: var(--page-edge-x-right);
   }
 }

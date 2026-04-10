@@ -1,7 +1,17 @@
-function setHeaderOffsetPx(header) {
+const CSS_VAR_HEADER_OFFSET = '--header-offset';
+const BODY_STYLE_OVERFLOW_HIDDEN = 'hidden';
+
+let lastWrittenHeaderOffset = '';
+
+function applyHeaderBottomOffsetPx(header) {
   const rect = header.getBoundingClientRect();
-  const bottom = Math.max(0, Math.round(rect.bottom));
-  document.documentElement.style.setProperty('--header-offset', `${bottom}px`);
+  const bottomPx = Math.max(0, Math.round(rect.bottom));
+  const value = `${bottomPx}px`;
+  if (value === lastWrittenHeaderOffset) {
+    return;
+  }
+  lastWrittenHeaderOffset = value;
+  document.documentElement.style.setProperty(CSS_VAR_HEADER_OFFSET, value);
 }
 
 export function initHeaderScroll() {
@@ -10,28 +20,31 @@ export function initHeaderScroll() {
     return;
   }
 
-  function update() {
-    setHeaderOffsetPx(header);
+  function measureAndApply() {
+    applyHeaderBottomOffsetPx(header);
   }
 
-  let rafScheduled = false;
-  function onScroll() {
-    if (rafScheduled) {
+  let scrollCoalescePending = false;
+  function onWindowScroll() {
+    if (document.body.style.overflow === BODY_STYLE_OVERFLOW_HIDDEN) {
       return;
     }
-    rafScheduled = true;
+    if (scrollCoalescePending) {
+      return;
+    }
+    scrollCoalescePending = true;
     requestAnimationFrame(() => {
-      rafScheduled = false;
-      update();
+      scrollCoalescePending = false;
+      measureAndApply();
     });
   }
 
-  update();
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
+  measureAndApply();
+  window.addEventListener('scroll', onWindowScroll, { passive: true });
+  window.addEventListener('resize', measureAndApply, { passive: true });
 
   if (typeof ResizeObserver !== 'undefined') {
-    const ro = new ResizeObserver(() => update());
-    ro.observe(header);
+    const observer = new ResizeObserver(measureAndApply);
+    observer.observe(header);
   }
 }

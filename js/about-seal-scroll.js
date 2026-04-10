@@ -1,5 +1,9 @@
-const MAX_SPEED = 0.038;
-const SMOOTH_K = 5.5;
+const SEAL_BASE_SPEED_DEG_PER_MS = 0.038;
+const SEAL_SPEED_SMOOTHING_K = 5.5;
+const SEAL_INITIAL_ANGLE_DEG = -30;
+const FRAME_DT_CAP_MS = 48;
+const MS_PER_SECOND = 1000;
+const SCROLL_DIRECTION_THRESHOLD_PX = 0.5;
 
 export function initAboutSealScroll() {
   const rotor = document.querySelector('.about-card__seal-rotor');
@@ -10,51 +14,51 @@ export function initAboutSealScroll() {
   rotor.style.animation = 'none';
 
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    rotor.style.transform = 'rotate(-30deg)';
+    rotor.style.transform = `rotate(${SEAL_INITIAL_ANGLE_DEG}deg)`;
     return;
   }
 
-  let angle = -30;
-  let velocity = MAX_SPEED;
-  let targetSpeed = MAX_SPEED;
-  let lastY = window.scrollY;
-  let lastTs = performance.now();
+  let angleDeg = SEAL_INITIAL_ANGLE_DEG;
+  let angularVelocityDegPerMs = SEAL_BASE_SPEED_DEG_PER_MS;
+  let targetSpeedDegPerMs = SEAL_BASE_SPEED_DEG_PER_MS;
+  let lastScrollY = window.scrollY;
+  let lastTimestampMs = performance.now();
 
-  const step = (ts) => {
-    const dt = Math.min(Math.max(ts - lastTs, 0), 48);
-    lastTs = ts;
+  const tick = (timestampMs) => {
+    const deltaMs = Math.min(Math.max(timestampMs - lastTimestampMs, 0), FRAME_DT_CAP_MS);
+    lastTimestampMs = timestampMs;
 
-    const t = dt / 1000;
-    const alpha = 1 - Math.exp(-SMOOTH_K * t);
-    velocity += (targetSpeed - velocity) * alpha;
+    const elapsedSeconds = deltaMs / MS_PER_SECOND;
+    const smoothingAlpha = 1 - Math.exp(-SEAL_SPEED_SMOOTHING_K * elapsedSeconds);
+    angularVelocityDegPerMs += (targetSpeedDegPerMs - angularVelocityDegPerMs) * smoothingAlpha;
 
-    angle += velocity * dt;
-    rotor.style.transform = `rotate(${angle}deg)`;
+    angleDeg += angularVelocityDegPerMs * deltaMs;
+    rotor.style.transform = `rotate(${angleDeg}deg)`;
 
-    requestAnimationFrame(step);
+    requestAnimationFrame(tick);
   };
 
-  requestAnimationFrame(step);
+  requestAnimationFrame(tick);
 
-  let scrollGate = false;
+  let scrollHandlerCoalescing = false;
   window.addEventListener(
     'scroll',
     () => {
-      if (!scrollGate) {
-        scrollGate = true;
+      if (!scrollHandlerCoalescing) {
+        scrollHandlerCoalescing = true;
         requestAnimationFrame(() => {
-          const y = window.scrollY;
-          const dy = y - lastY;
-          lastY = y;
-          if (dy > 0.5) {
-            targetSpeed = MAX_SPEED;
-          } else if (dy < -0.5) {
-            targetSpeed = -MAX_SPEED;
+          const scrollY = window.scrollY;
+          const deltaScrollY = scrollY - lastScrollY;
+          lastScrollY = scrollY;
+          if (deltaScrollY > SCROLL_DIRECTION_THRESHOLD_PX) {
+            targetSpeedDegPerMs = SEAL_BASE_SPEED_DEG_PER_MS;
+          } else if (deltaScrollY < -SCROLL_DIRECTION_THRESHOLD_PX) {
+            targetSpeedDegPerMs = -SEAL_BASE_SPEED_DEG_PER_MS;
           }
-          scrollGate = false;
+          scrollHandlerCoalescing = false;
         });
       }
     },
-    { passive: true }
+    { passive: true },
   );
 }

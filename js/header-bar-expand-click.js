@@ -1,9 +1,9 @@
-function isBarChromeOnlyClickTarget(target) {
-  const el = target instanceof Element ? target : target.parentElement;
-  if (!el) {
+function clickTargetIsBarChromeOnly(target) {
+  const element = target instanceof Element ? target : target.parentElement;
+  if (!element) {
     return true;
   }
-  if (el.closest('a, button, input, textarea, select, label, [role="button"]')) {
+  if (element.closest('a, button, input, textarea, select, label, [role="button"]')) {
     return false;
   }
   return true;
@@ -27,13 +27,13 @@ export function initHeaderBarExpandClick() {
 
   bar.addEventListener(
     'click',
-    (e) => {
-      if (!isBarChromeOnlyClickTarget(e.target)) {
+    (event) => {
+      if (!clickTargetIsBarChromeOnly(event.target)) {
         return;
       }
-      const isDocument = root.dataset.headerSurface === 'document';
-      const isExpanded = header.classList.contains('site-header--bar-pinned-expanded');
-      if (isDocument && !isExpanded) {
+      const isDocumentSurface = root.dataset.headerSurface === 'document';
+      const isBarExpanded = header.classList.contains('site-header--bar-pinned-expanded');
+      if (isDocumentSurface && !isBarExpanded) {
         return;
       }
       header.classList.toggle('site-header--bar-pinned-expanded');
@@ -52,12 +52,12 @@ export function initHeaderBarExpandClick() {
   if (nav) {
     nav.addEventListener(
       'click',
-      (e) => {
-        const t = e.target;
-        if (!(t instanceof Element)) {
+      (event) => {
+        const eventTarget = event.target;
+        if (!(eventTarget instanceof Element)) {
           return;
         }
-        const link = t.closest('a');
+        const link = eventTarget.closest('a');
         if (!link) {
           return;
         }

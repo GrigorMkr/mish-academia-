@@ -1,3 +1,7 @@
+const IN_VIEW_HEIGHT_RATIO = 0.9;
+const INTERSECTION_ROOT_MARGIN = '0px 0px -10% 0px';
+const INTERSECTION_THRESHOLD = 0.18;
+
 export function initFooterCertReveal() {
   const card = document.querySelector('.footer-cert__card');
   if (!card) {
@@ -15,9 +19,9 @@ export function initFooterCertReveal() {
   };
 
   const isInitiallyInView = () => {
-    const r = card.getBoundingClientRect();
-    const vh = window.innerHeight || document.documentElement.clientHeight || 0;
-    return r.bottom > 0 && r.top < vh * 0.9;
+    const rect = card.getBoundingClientRect();
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    return rect.bottom > 0 && rect.top < viewportHeight * IN_VIEW_HEIGHT_RATIO;
   };
 
   if (isInitiallyInView()) {
@@ -61,9 +65,9 @@ export function initFooterCertReveal() {
     },
     {
       root: null,
-      rootMargin: '0px 0px -10% 0px',
-      threshold: 0.18,
-    }
+      rootMargin: INTERSECTION_ROOT_MARGIN,
+      threshold: INTERSECTION_THRESHOLD,
+    },
   );
 
   observer.observe(card);

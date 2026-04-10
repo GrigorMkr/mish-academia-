@@ -1,4 +1,4 @@
-const MENU_MAX_WIDTH_PX = 900;
+const MOBILE_NAV_BREAKPOINT_MAX_PX = 900;
 
 export function initSiteMenu() {
   const header = document.querySelector('.site-header');
@@ -15,9 +15,6 @@ export function initSiteMenu() {
     burger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     burger.setAttribute('aria-label', isOpen ? 'Закрыть меню' : 'Открыть меню');
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    requestAnimationFrame(() => {
-      window.dispatchEvent(new Event('resize'));
-    });
   }
 
   function toggleMenu() {
@@ -28,8 +25,8 @@ export function initSiteMenu() {
     setMenuOpen(false);
   }
 
-  function onResize() {
-    if (window.innerWidth > MENU_MAX_WIDTH_PX) {
+  function onWindowResize() {
+    if (window.innerWidth > MOBILE_NAV_BREAKPOINT_MAX_PX) {
       closeMenu();
     }
   }
@@ -41,5 +38,5 @@ export function initSiteMenu() {
   if (scrim) {
     scrim.addEventListener('click', closeMenu);
   }
-  window.addEventListener('resize', onResize);
+  window.addEventListener('resize', onWindowResize);
 }

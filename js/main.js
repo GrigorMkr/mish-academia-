@@ -1,4 +1,5 @@
 import { initButtonBlur } from './button-blur.js';
+import { initSmoothAnchorScroll } from './smooth-anchor-scroll.js';
 import { initSiteMenu } from './menu.js';
 import { initHeaderExpandOnScroll } from './header-expand-scroll.js';
 import { initHeaderScroll } from './header-scroll.js';
@@ -11,15 +12,16 @@ import { initFooterCertReveal } from './footer-cert-reveal.js';
 import { initHeroSubcopyTyping } from './hero-subcopy-typing.js';
 import { initHeroTitleTyping } from './hero-title-typing.js';
 
-function safeInit(fn) {
+function safeInit(initFn) {
   try {
-    fn();
-  } catch (e) {
-    void e;
+    initFn();
+  } catch {
+    void 0;
   }
 }
 
 safeInit(initButtonBlur);
+safeInit(initSmoothAnchorScroll);
 safeInit(initSiteMenu);
 safeInit(initHeaderExpandOnScroll);
 safeInit(initHeaderBarExpandClick);
