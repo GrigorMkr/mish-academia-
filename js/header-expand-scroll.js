@@ -2,10 +2,8 @@ const BLEND_RANGE_PX = 168;
 const HERO_SCROLL_GATE_PX = 28;
 const SCROLL_RELEASE_PX = 280;
 const UNPIN_AT_T = 0.98;
-/** Время сглаживания (мс): больше — плавнее движение навбара, дольше догон цели. */
-const SMOOTH_TAU_MS = 145;
-/** Колесо даёт крупные шаги — слегка приглушаем, чтобы цель менялась мягче. */
-const WHEEL_DELTA_SCALE = 0.88;
+const SMOOTH_TAU_MS = 220;
+const WHEEL_DELTA_SCALE = 0.72;
 const DONE_EPS_PX = 0.35;
 const IDLE_EPS_PX = 0.012;
 
@@ -161,9 +159,6 @@ export function initHeaderExpandOnScroll() {
     }
   }
 
-  /**
-   * Скролл страницы копится в target; позиция окна фиксируется на y0, пока не закрыли нав.
-   */
   function consumeScrollForBarCollapse() {
     if (!header?.classList.contains('site-header--bar-pinned-expanded')) {
       return;
@@ -173,6 +168,15 @@ export function initHeaderExpandOnScroll() {
 
     const y0 = Number(header.dataset.barExpandScrollY);
     if (!Number.isFinite(y0)) {
+      return;
+    }
+
+    if (isDesktopBarCollapse() && !prefersReducedMotion()) {
+      const yNow = window.scrollY || root.scrollTop;
+      if (Math.abs(yNow - y0) > 0.5) {
+        window.scrollTo({ top: y0, left: 0, behavior: 'auto' });
+      }
+      scheduleCollapseStep();
       return;
     }
 
@@ -223,7 +227,7 @@ export function initHeaderExpandOnScroll() {
     if (prefersReducedMotion()) {
       targetCollapsePx = SCROLL_RELEASE_PX + Math.max(0, e.deltaY - SCROLL_RELEASE_PX);
     } else {
-      targetCollapsePx += e.deltaY;
+      targetCollapsePx += e.deltaY * WHEEL_DELTA_SCALE;
     }
 
     scheduleCollapseStep();

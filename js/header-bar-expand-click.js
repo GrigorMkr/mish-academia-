@@ -13,6 +13,7 @@ export function initHeaderBarExpandClick() {
   const root = document.documentElement;
   const header = document.querySelector('.site-header');
   const bar = document.querySelector('.site-header__bar');
+  const nav = document.querySelector('.site-header__nav');
   if (!header || !bar) {
     return;
   }
@@ -30,6 +31,11 @@ export function initHeaderBarExpandClick() {
       if (!isBarChromeOnlyClickTarget(e.target)) {
         return;
       }
+      const isDocument = root.dataset.headerSurface === 'document';
+      const isExpanded = header.classList.contains('site-header--bar-pinned-expanded');
+      if (isDocument && !isExpanded) {
+        return;
+      }
       header.classList.toggle('site-header--bar-pinned-expanded');
       if (header.classList.contains('site-header--bar-pinned-expanded')) {
         header.dataset.barExpandScrollY = String(window.scrollY || document.documentElement.scrollTop || 0);
@@ -42,4 +48,29 @@ export function initHeaderBarExpandClick() {
     },
     { passive: true },
   );
+
+  if (nav) {
+    nav.addEventListener(
+      'click',
+      (e) => {
+        const t = e.target;
+        if (!(t instanceof Element)) {
+          return;
+        }
+        const link = t.closest('a');
+        if (!link) {
+          return;
+        }
+        if (!header.classList.contains('site-header--bar-pinned-expanded')) {
+          return;
+        }
+
+        header.classList.remove('site-header--bar-pinned-expanded');
+        delete header.dataset.barExpandScrollY;
+        root.style.setProperty('--header-bar-release-t', '0');
+        syncVideoOpen();
+      },
+      { passive: true, capture: true },
+    );
+  }
 }
