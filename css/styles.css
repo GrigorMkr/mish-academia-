@@ -56,8 +56,8 @@
 
   --header-pad-y: 16px;
   --header-pad-x: var(--container-pad-x);
-  --header-column-gap: 20px;
-  --header-nav-gap: 20px;
+  --header-column-gap: clamp(12px, 1.4vw, 20px);
+  --header-nav-gap: clamp(10px, 1.1vw, 20px);
   --header-end-gap: 0px;
 
   --header-shrink-t: 0;
@@ -67,7 +67,7 @@
 
   --header-bar-video-pos-x: 50%;
 
-  --header-bar-video-pos-y: 120%;
+  --header-bar-video-pos-y: 52%;
 
   --site-stack-video-cover-zoom: 1;
   --header-bg: rgb(255 255 255 / 0.7);
@@ -164,10 +164,8 @@ body {
   transform: translateZ(0);
 }
 
-@media (max-width: 1366px) and (max-height: 800px) and (min-width: 901px) {
+@media (min-width: 901px) {
   :root {
-    --header-bar-video-pos-x: 50%;
-    --header-bar-video-pos-y: 50%;
     --site-stack-video-cover-zoom: 1.12;
   }
 
@@ -745,7 +743,8 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
+  min-width: 0;
   gap: var(--header-nav-gap);
   position: relative;
   z-index: 6;
@@ -755,7 +754,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 .site-header__nav a {
   font-family: "Loos Wide", var(--font-headline);
   font-weight: 500;
-  font-size: 18px;
+  font-size: clamp(14px, 1.12vw, 18px);
   line-height: 1.4;
   color:
     color-mix(
@@ -793,12 +792,12 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
 .site-header .btn.site-header__cta {
   flex-shrink: 0;
-  height: 36px;
-  padding: 6px 15px 7px;
+  height: clamp(32px, 2.5vw, 36px);
+  padding: clamp(5px, 0.45vw, 6px) clamp(12px, 1.05vw, 15px) clamp(6px, 0.5vw, 7px);
   border-radius: 135.96px;
   font-family: "Loos Wide", var(--font-headline);
   font-weight: 500;
-  font-size: 18px;
+  font-size: clamp(14px, 1.12vw, 18px);
   line-height: 1.4;
   color: var(--color-white);
   background: var(--color-blue);
