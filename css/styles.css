@@ -5079,6 +5079,17 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
 
+  html.layout--fluid .site-header:not(.site-header--bar-pinned-expanded) .site-header__bar {
+    align-self: center;
+    width: min(var(--page-w), 100%);
+  }
+
+  html.layout--fluid .site-header--bar-pinned-expanded .site-header__bar {
+    align-self: stretch;
+    width: auto;
+    max-width: none;
+  }
+
   html.layout--fluid .site-header__inner {
     max-width: min(var(--page-w), 100%);
     margin-left: auto;
