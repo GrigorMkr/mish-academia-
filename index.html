@@ -27,24 +27,71 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <div class="site-stack-video" aria-hidden="true">
-      <video
-        class="site-stack-video__el"
-        autoplay
-        muted
-        loop
-        playsinline
-        preload="auto"
-        disablepictureinpicture
-        aria-hidden="true"
-      >
-        <source src="assets/video-project-bg.mp4" type="video/mp4" />
-      </video>
-    </div>
     <div class="page-shell">
       <header class="site-header">
         <div class="site-header__bar">
+          <div class="site-stack-video" aria-hidden="true">
+            <video
+              class="site-stack-video__el"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              disablepictureinpicture
+              aria-hidden="true"
+            >
+              <source src="assets/video-project-bg.mp4" type="video/mp4" />
+            </video>
+          </div>
           <div class="site-header__bar-media" aria-hidden="true"></div>
+          <div class="site-header__expand-sheet">
+          <div class="site-header__hero-visual hero hero--promo">
+            <div class="hero__grain" aria-hidden="true"></div>
+            <div class="hero__grid-sticky-wrap">
+              <div class="hero-glass hero-glass--circle">
+                <h1 class="hero-glass__title">
+                  <span class="hero-glass__title-line hero-glass__title-line--1">Сделайте апгрейд</span><br />
+                  <span class="hero-glass__title-line hero-glass__title-line--2">карьеры в ИТ через</span><br />
+                  <span class="hero-glass__title-line hero-glass__title-line--3">практику</span>
+                </h1>
+                <a href="#price" class="btn hero-glass__cta">Начать учиться</a>
+              </div>
+              <div class="hero-glass hero-glass--panel" aria-hidden="true">
+                <div class="hero-panel">
+                  <div class="hero-panel__top">
+                    <span class="hero-panel__dot"></span>
+                    <span class="hero-panel__dot"></span>
+                    <span class="hero-panel__dot"></span>
+                  </div>
+                  <div class="hero-panel__rows">
+                    <div class="hero-panel__row"></div>
+                    <div class="hero-panel__row hero-panel__row--mid"></div>
+                    <div class="hero-panel__row hero-panel__row--short"></div>
+                  </div>
+                  <svg class="hero-panel__chart" viewBox="0 0 320 100" fill="none">
+                    <path
+                      d="M4 78 C48 22 72 88 112 52 S200 8 268 38 L316 18"
+                      stroke="rgb(255 255 255 / 0.88)"
+                      stroke-width="3.25"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+            <div class="hero__subcopy hero__subcopy--layer">
+              <p class="hero__subcopy-item">
+                <span class="hero__subcopy-row">Учеба построена на принципах</span>
+                <span class="hero__subcopy-row">реальной работы в ИТ и дизайне</span>
+              </p>
+              <p class="hero__subcopy-item">
+                <span class="hero__subcopy-row">Учим систематизировать знания</span>
+                <span class="hero__subcopy-row">и выстраивать процессы</span>
+              </p>
+            </div>
+          </div>
+          </div>
           <div class="site-header__inner">
             <div class="site-header__start">
               <a href="#" class="site-header__brand logo-spreent logo-spreent--header" aria-label="Spreent на главную">
@@ -100,53 +147,10 @@
       </header>
       <div class="page">
       <main>
-      <section class="section section--hero section--hero-promo">
-        <div class="hero hero--promo">
-          <div class="hero__grain" aria-hidden="true"></div>
-          <div class="hero__grid-sticky-wrap">
-            <div class="hero-glass hero-glass--circle">
-              <h1 class="hero-glass__title">
-                <span class="hero-glass__title-line hero-glass__title-line--1">Сделайте апгрейд</span><br />
-                <span class="hero-glass__title-line hero-glass__title-line--2">карьеры в ИТ через</span><br />
-                <span class="hero-glass__title-line hero-glass__title-line--3">практику</span>
-              </h1>
-              <a href="#price" class="btn hero-glass__cta">Начать учиться</a>
-            </div>
-            <div class="hero-glass hero-glass--panel" aria-hidden="true">
-              <div class="hero-panel">
-                <div class="hero-panel__top">
-                  <span class="hero-panel__dot"></span>
-                  <span class="hero-panel__dot"></span>
-                  <span class="hero-panel__dot"></span>
-                </div>
-                <div class="hero-panel__rows">
-                  <div class="hero-panel__row"></div>
-                  <div class="hero-panel__row hero-panel__row--mid"></div>
-                  <div class="hero-panel__row hero-panel__row--short"></div>
-                </div>
-                <svg class="hero-panel__chart" viewBox="0 0 320 100" fill="none">
-                  <path
-                    d="M4 78 C48 22 72 88 112 52 S200 8 268 38 L316 18"
-                    stroke="rgb(255 255 255 / 0.88)"
-                    stroke-width="3.25"
-                    stroke-linecap="round"
-                  />
-                </svg>
-              </div>
-            </div>
-          </div>
-          <div class="hero__subcopy hero__subcopy--layer">
-            <p class="hero__subcopy-item">
-              <span class="hero__subcopy-row">Учеба построена на принципах</span>
-              <span class="hero__subcopy-row">реальной работы в ИТ и дизайне</span>
-            </p>
-            <p class="hero__subcopy-item">
-              <span class="hero__subcopy-row">Учим систематизировать знания</span>
-              <span class="hero__subcopy-row">и выстраивать процессы</span>
-            </p>
-          </div>
-        </div>
-      </section>
+      <section
+        class="section section--hero section--hero-promo section--hero-sentinel"
+        aria-hidden="true"
+      ></section>
 
       <section id="about" class="section section--about">
         <div class="section__inner section__inner--about">
@@ -673,29 +677,22 @@
           root.style.setProperty('--header-offset', bottom + 'px');
         }
         var y = window.scrollY || root.scrollTop;
-        var hero =
-          document.querySelector('.section--hero.section--hero-promo') ||
-          document.querySelector('.section--hero');
-        var bar = document.querySelector('.site-header__bar');
-        var pastHero = false;
-        if (hero && bar) {
-          var hr = hero.getBoundingClientRect();
-          var barH = bar.getBoundingClientRect().height;
-          pastHero = hr.bottom < barH + 2;
+        var gate = 28;
+        var about = document.querySelector('#about');
+        var inner = document.querySelector('.site-header__inner');
+        var t = 0;
+        if (y >= gate && inner && about) {
+          var barBottom = inner.getBoundingClientRect().bottom;
+          var aboutTop = about.getBoundingClientRect().top;
+          var d = aboutTop - barBottom;
+          var range = 168;
+          t = 1 - Math.min(1, Math.max(0, d / range));
         }
-        root.dataset.headerSurface = pastHero ? 'document' : 'hero';
-        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (window.innerWidth > 900) {
-          var t;
-          if (reduced) {
-            t = y > 48 ? 1 : 0;
-          } else {
-            t = Math.min(1, Math.max(0, y / 320));
-          }
-          root.style.setProperty('--header-shrink-t', String(t));
-        } else {
-          root.style.removeProperty('--header-shrink-t');
-        }
+        root.style.setProperty('--header-surface-t', t.toFixed(4));
+        root.style.setProperty('--header-bar-video-open', '0');
+        root.style.setProperty('--header-bar-release-t', '0');
+        root.dataset.headerSurface = t >= 0.5 ? 'document' : 'hero';
+        root.style.removeProperty('--header-shrink-t');
       })();
     </script>
     <script src="js/main.js" type="module"></script>

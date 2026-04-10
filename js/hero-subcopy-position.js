@@ -6,6 +6,8 @@ export function initHeroSubcopyPosition() {
   const circle = document.querySelector('.hero-glass--circle');
   const grid = document.querySelector('.hero__grid-sticky-wrap');
   const cta = document.querySelector('.hero-glass__cta');
+  const bar = document.querySelector('.site-header__bar');
+  const headerInner = document.querySelector('.site-header__inner');
 
   if (!layer || !circle || !grid) {
     return;
@@ -13,6 +15,19 @@ export function initHeroSubcopyPosition() {
 
   function isCompact() {
     return window.innerWidth <= 900;
+  }
+
+  function heroVisualRoot() {
+    return layer.closest('.site-header__hero-visual');
+  }
+
+  function isBarVisuallyExpanded() {
+    if (!bar || !headerInner) {
+      return true;
+    }
+    const bh = bar.getBoundingClientRect().height;
+    const ih = headerInner.getBoundingClientRect().height;
+    return bh > ih + 20;
   }
 
   function rowGapPx() {
@@ -37,32 +52,41 @@ export function initHeroSubcopyPosition() {
     }
 
     const cr = circle.getBoundingClientRect();
-    const leftX = Math.round(cr.left);
+    const visualRoot = heroVisualRoot();
+    const wr = visualRoot ? visualRoot.getBoundingClientRect() : null;
+
+    const leftX = wr ? Math.round(cr.left - wr.left) : Math.round(cr.left);
     layer.style.left = `${leftX}px`;
     const nudgeRaw = getComputedStyle(layer)
       .getPropertyValue('--hero-subcopy-nudge-x')
       .trim();
-    const shiftX = parseFloat(nudgeRaw, 10) || 0;
-    const maxW = Math.min(
-      520,
-      Math.max(160, window.innerWidth - leftX - 16 - shiftX),
-    );
+    const shiftX = parseFloat(nudgeRaw) || 0;
+    const widthCap = wr ? wr.right - wr.left : window.innerWidth;
+    const maxW = Math.min(520, Math.max(160, widthCap - leftX - 16 - shiftX));
     layer.style.maxWidth = `${maxW}px`;
 
     if (cta) {
       const tr = cta.getBoundingClientRect();
       void layer.offsetHeight;
       const lh = layer.getBoundingClientRect().height;
-      layer.style.top = `${Math.round(tr.top + tr.height / 2 - lh / 2)}px`;
+      const topVh = tr.top + tr.height / 2 - lh / 2;
+      layer.style.top = `${Math.round(wr ? topVh - wr.top : topVh)}px`;
     } else {
       const gap = rowGapPx();
-      layer.style.top = `${Math.round(cr.bottom + gap)}px`;
+      const topVh = cr.bottom + gap;
+      layer.style.top = `${Math.round(wr ? topVh - wr.top : topVh)}px`;
     }
   }
 
   function syncVisibility() {
     const hero = heroSection();
     if (!hero) {
+      layer.classList.add(HIDDEN_CLASS);
+      layer.setAttribute('aria-hidden', 'true');
+      return;
+    }
+
+    if (heroVisualRoot() && !isBarVisuallyExpanded()) {
       layer.classList.add(HIDDEN_CLASS);
       layer.setAttribute('aria-hidden', 'true');
       return;
@@ -99,6 +123,11 @@ export function initHeroSubcopyPosition() {
 
   if (document.fonts?.ready) {
     document.fonts.ready.then(tick);
+  }
+
+  if (bar && typeof ResizeObserver !== 'undefined') {
+    const roBar = new ResizeObserver(() => tick());
+    roBar.observe(bar);
   }
 
   requestAnimationFrame(tick);

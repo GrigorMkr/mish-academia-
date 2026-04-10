@@ -3,6 +3,7 @@ import { initSiteMenu } from './menu.js';
 import { initHeaderExpandOnScroll } from './header-expand-scroll.js';
 import { initHeaderScroll } from './header-scroll.js';
 import { initHeaderBarVideo } from './header-bar-video.js';
+import { initHeaderBarExpandClick } from './header-bar-expand-click.js';
 import { initAboutSealScroll } from './about-seal-scroll.js';
 import { initFooterForm } from './footer-form.js';
 import { initHeroSubcopyPosition } from './hero-subcopy-position.js';
@@ -21,6 +22,7 @@ function safeInit(fn) {
 safeInit(initButtonBlur);
 safeInit(initSiteMenu);
 safeInit(initHeaderExpandOnScroll);
+safeInit(initHeaderBarExpandClick);
 safeInit(initHeaderBarVideo);
 safeInit(initHeaderScroll);
 safeInit(initAboutSealScroll);
