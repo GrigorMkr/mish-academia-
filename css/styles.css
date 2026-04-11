@@ -38,7 +38,6 @@
   --font-pin: var(--font-body);
 
   --container-pad-x: clamp(16px, 3.5vw, 40px);
-  /* Лёгкий сдвиг контента влево: меньше поле слева, больше справа (сумма прежняя) — правый край не упирается */
   --layout-pad-shift-x: 6px;
   --container-pad-x-left: max(10px, calc(var(--container-pad-x) - var(--layout-pad-shift-x)));
   --container-pad-x-right: calc(var(--container-pad-x) + var(--layout-pad-shift-x));
@@ -53,7 +52,6 @@
   --fs-body: clamp(16px, 1.25vw, 18px);
   --fs-lead: clamp(18px, 1.75vw, 24px);
 
-  /* Шапка: те же границы, что у текста, но срез по rem — масштаб как у main при зуме */
   --fs-header-nav: clamp(0.88rem, 0.28vw + 0.78rem, 1.13rem);
 
   --section-pad-y: clamp(56px, 6.5vw, 90px);
@@ -113,9 +111,15 @@ html {
 
   scroll-padding-top: max(1rem, var(--header-offset));
   min-height: 100%;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: auto;
 
   overflow-anchor: none;
+}
+
+@media (min-width: 901px) {
+  html {
+    scrollbar-gutter: stable;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -176,7 +180,6 @@ body {
   transform: translateZ(0);
 }
 
-/* Раскрытый навбар: кадр фонового видео по центру (на всех ширинах) */
 .site-header--bar-pinned-expanded .site-header__bar {
   --header-bar-video-pos-x: 50%;
   --header-bar-video-pos-y: 50%;
@@ -571,10 +574,6 @@ html[data-header-surface="document"] .site-header {
   .site-header__burger {
     pointer-events: auto;
   }
-
-  .site-header__nav > .site-header__nav-visual {
-    display: none;
-  }
 }
 
 .site-header__hero-visual {
@@ -639,7 +638,46 @@ html[data-header-surface="document"] .site-header {
   }
 
   .site-header__expand-sheet .hero-glass--panel {
-    transform: translate(172px, 176px) rotate(-15deg);
+    transform: translate(172px, calc(176px + clamp(112px, 12vh, 200px))) rotate(-15deg);
+  }
+
+  .site-header__hero-visual .hero-glass,
+  .hero:not(.site-header__hero-visual) .hero-glass {
+    border-color: rgb(255 255 255 / 0.22);
+    background: rgb(255 255 255 / 0.08);
+    box-shadow:
+      0 20px 64px rgb(0 12 45 / 0.2),
+      inset 0 1px 0 rgb(255 255 255 / 0.12);
+  }
+
+  .site-header__hero-visual .hero-glass--circle,
+  .hero:not(.site-header__hero-visual) .hero-glass--circle {
+    border-color: rgb(255 255 255 / 0.08);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.04),
+      0 16px 48px rgb(10 28 62 / 0.02),
+      0 6px 18px rgb(20 45 95 / 0.01),
+      inset 0 1px 0 rgb(255 255 255 / 0.16),
+      inset 1px 1px 0 rgb(255 255 255 / 0.08),
+      inset 0 -1px 0 rgb(0 18 45 / 0.14),
+      inset 0 -10px 22px rgb(55 85 130 / 0.04),
+      inset 0 -5px 16px rgb(255 185 168 / 0.03);
+    backdrop-filter: blur(11px) saturate(1.02);
+  }
+
+  .site-header__hero-visual .hero-glass--panel,
+  .hero:not(.site-header__hero-visual) .hero-glass--panel {
+    border-color: rgb(255 255 255 / 0.08);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.04),
+      0 16px 48px rgb(10 28 62 / 0.02),
+      0 6px 18px rgb(20 45 95 / 0.01),
+      inset 0 1px 0 rgb(255 255 255 / 0.16),
+      inset 1px 1px 0 rgb(255 255 255 / 0.08),
+      inset 0 -1px 0 rgb(0 18 45 / 0.14),
+      inset 0 -10px 22px rgb(55 85 130 / 0.04),
+      inset 0 -5px 16px rgb(255 185 168 / 0.03);
+    backdrop-filter: blur(11px) saturate(1.02);
   }
 }
 
@@ -1237,7 +1275,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .hero-glass--panel {
-    transform: translate(172px, calc(176px + clamp(84px, 9vh, 136px))) rotate(-15deg);
+    transform: translate(172px, calc(176px + clamp(112px, 12vh, 200px))) rotate(-15deg);
   }
 }
 
@@ -1397,15 +1435,15 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 @media (max-width: 900px) {
   .hero__grid-sticky-wrap {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: auto;
     min-height: 0;
-    justify-items: start;
-    text-align: left;
+    justify-items: center;
+    text-align: center;
     padding:
       calc(var(--header-offset) + clamp(8px, 2.5vw, 16px))
-      max(16px, calc(clamp(20px, 5vw, 32px) + 4px))
+      var(--page-edge-x-right)
       clamp(28px, 4vw, 40px)
-      max(14px, calc(clamp(20px, 5vw, 32px) - 4px));
+      var(--page-edge-x-left);
     row-gap: clamp(14px, 18px, 22px);
     width: 100%;
     max-width: none;
@@ -1414,11 +1452,17 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .hero-glass--circle {
     grid-column: 1;
     grid-row: 1;
-    place-self: start start;
-    align-items: flex-start;
-    text-align: left;
+    place-self: center;
+    align-items: center;
+    text-align: center;
     margin-top: clamp(0px, 1.5vh, 12px);
-    padding-left: clamp(10px, 3vw, 16px);
+    margin-left: auto;
+    margin-right: auto;
+    padding: clamp(14px, 2.2vw, 22px) clamp(18px, 3.5vw, 28px) clamp(28px, 4vw, 40px);
+  }
+
+  .hero-glass--circle .hero-glass__title {
+    text-align: center;
   }
 
   .hero__subcopy--layer {
@@ -1428,14 +1472,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .hero-glass--panel {
-    grid-column: 1;
-    grid-row: 3;
-    place-self: center center;
-    margin-left: 0;
-    margin-bottom: 0;
-    transform: rotate(-12deg);
-    transform-origin: center center;
-    max-width: 420px;
+    display: none;
   }
 }
 
@@ -2336,9 +2373,192 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 }
 
 @media (max-width: 1199px) {
+  .about-card__media--seal {
+    container-type: inline-size;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    max-width: min(471px, 100%);
+    height: auto;
+    min-height: 240px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .about-card__seal-view {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    min-height: 220px;
+    margin: 0;
+    overflow: hidden;
+  }
+
   .about-card__seal-clip {
-    transform: scale(0.88);
-    transform-origin: top center;
+    position: relative;
+    left: auto;
+    top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: min(100%, 471px);
+    max-width: 471px;
+    height: auto;
+    aspect-ratio: 471 / 500;
+    overflow: hidden;
+    transform: none;
+  }
+
+  .about-card__seal-stage {
+    transform: scale(calc(min(1, 100cqw / 471) * 0.72));
+    transform-origin: 50% 42%;
+  }
+
+  .about-card--deep .about-card__media--decor,
+  html.layout--fluid .about-card--deep .about-card__media--decor {
+    position: absolute;
+    top: 157px;
+    right: 0;
+    left: auto;
+    z-index: 1;
+    width: min(390px, 100%);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 390 / 442;
+    min-height: 0;
+    margin: 0;
+    overflow: visible;
+    flex: none;
+    align-self: auto;
+  }
+
+  .about-card--deep .about-decor,
+  html.layout--fluid .about-card--deep .about-decor {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    aspect-ratio: auto;
+    transform: none;
+  }
+
+  .about-card--deep .about-decor__glow,
+  html.layout--fluid .about-card--deep .about-decor__glow {
+    left: calc(100% * 131.77 / 390);
+    top: calc(100% * 184.65 / 442);
+    width: calc(100% * 217.55 / 390);
+    height: calc(100% * 359.05 / 442);
+  }
+
+  .about-card--deep .about-decor__frame,
+  html.layout--fluid .about-card--deep .about-decor__frame {
+    left: calc(100% * 131.77 / 390);
+    top: calc(100% * 184.84 / 442);
+    width: calc(100% * 217.55 / 390);
+    height: calc(100% * 303.33 / 442);
+  }
+
+  .about-card--deep .about-decor__frame-handle--tl,
+  html.layout--fluid .about-card--deep .about-decor__frame-handle--tl {
+    left: calc(100% * 124.69 / 390);
+    top: calc(100% * 177.75 / 442);
+    width: calc(100% * 14.15 / 390);
+    padding-bottom: calc(100% * 14.15 / 390);
+  }
+
+  .about-card--deep .about-decor__frame-handle--tr,
+  html.layout--fluid .about-card--deep .about-decor__frame-handle--tr {
+    left: calc(100% * 342.24 / 390);
+    top: calc(100% * 177.75 / 442);
+    width: calc(100% * 14.15 / 390);
+    padding-bottom: calc(100% * 14.15 / 390);
+  }
+
+  .about-card--deep .about-decor__you-cursor-wrap,
+  html.layout--fluid .about-card--deep .about-decor__you-cursor-wrap {
+    inset: auto calc(100% * 175.1 / 390) calc(100% * 357.28 / 442) auto;
+    width: calc(100% * 22.99 / 390);
+    padding-bottom: calc(100% * 22.99 / 390);
+  }
+
+  .about-card--deep .about-decor__pill--you,
+  html.layout--fluid .about-card--deep .about-decor__pill--you {
+    inset: auto calc(100% * 121.16 / 390) calc(100% * 321.91 / 442) auto;
+    padding: 7px 14px;
+  }
+
+  .about-card--deep .about-decor__ux-hand,
+  html.layout--fluid .about-card--deep .about-decor__ux-hand {
+    inset: auto calc(100% * 367.01 / 390) calc(100% * 155.65 / 442) auto;
+    width: calc(100% * 22.99 / 390);
+    height: calc(100% * 22.99 / 442);
+  }
+
+  .about-card--deep .about-decor__pill--ux,
+  html.layout--fluid .about-card--deep .about-decor__pill--ux {
+    inset: auto calc(100% * 295.37 / 390) calc(100% * 130.88 / 442) auto;
+    padding: 2px 7px;
+  }
+
+  .about-card--deep .about-decor__ellipse-group,
+  html.layout--fluid .about-card--deep .about-decor__ellipse-group {
+    left: calc(100% * 84.01 / 390);
+    top: calc(100% * 140.61 / 442);
+    width: calc(100% * 103.47 / 390);
+    padding-bottom: calc(100% * 103.47 / 390);
+    height: 0;
+  }
+
+  .about-card--deep .about-decor__ellipse-group .about-decor__dot,
+  html.layout--fluid .about-card--deep .about-decor__ellipse-group .about-decor__dot {
+    width: calc(100% * 14.15 / 103.47);
+    padding-bottom: calc(100% * 14.15 / 103.47);
+  }
+
+  .about-card--deep .about-decor__ellipse-img,
+  html.layout--fluid .about-card--deep .about-decor__ellipse-img {
+    width: 215.29%;
+    height: 215.29%;
+    object-position: 30% 30%;
+  }
+
+  .about-card--lime .about-card__media--photo,
+  html.layout--fluid .about-card--lime .about-card__media--photo {
+    position: absolute;
+    top: 228px;
+    right: -80px;
+    left: auto;
+    width: min(364px, 100%);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 364 / 413;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .about-card--lime .about-card__photo-box,
+  html.layout--fluid .about-card--lime .about-card__photo-box {
+    position: absolute;
+    inset: auto auto 0 -25px;
+    width: min(364px, 100%);
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 364 / 404;
+  }
+
+  .about-card--lime .about-card__img-crop,
+  html.layout--fluid .about-card--lime .about-card__img-crop {
+    position: absolute;
+    inset: 0;
   }
 }
 
@@ -3456,14 +3676,14 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   width: 100%;
   height: 100%;
   max-width: none;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   display: block;
 }
 
 .footer-cert__right > .footer-cert__layer {
   border-radius: inherit;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
 }
 
@@ -3791,6 +4011,19 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 }
 
+@media (max-width: 1199px) {
+  :root {
+    --layout-pad-shift-x: 0px;
+    --page-pad-x: clamp(16px, 4.2vw, 24px);
+    --container-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --container-pad-x-right: max(var(--page-pad-x), var(--safe-right));
+    --gutter-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --gutter-pad-x-right: max(var(--page-pad-x), var(--safe-right));
+    --page-edge-x-left: max(var(--page-pad-x), var(--safe-left));
+    --page-edge-x-right: max(var(--page-pad-x), var(--safe-right));
+  }
+}
+
 @media (max-width: 900px) {
   :root {
     --header-h: 101px;
@@ -3800,6 +4033,15 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     --header-bar-video-pos-x: 50%;
     --header-bar-video-pos-y: 50%;
     --header-bar-expanded-min: min(92vh, 860px);
+
+    --layout-pad-shift-x: 0px;
+    --page-pad-x: clamp(16px, 4.2vw, 24px);
+    --container-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --container-pad-x-right: max(var(--page-pad-x), var(--safe-right));
+    --gutter-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --gutter-pad-x-right: max(var(--page-pad-x), var(--safe-right));
+    --page-edge-x-left: max(var(--page-pad-x), var(--safe-left));
+    --page-edge-x-right: max(var(--page-pad-x), var(--safe-right));
   }
 
   .site-header__bar {
@@ -3886,7 +4128,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .site-header__nav {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 10px;
     position: fixed;
     top: var(--header-offset);
@@ -3924,77 +4166,98 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     letter-spacing: 0;
     color: var(--color-text);
     text-shadow: none;
+    text-align: left;
+    align-self: stretch;
   }
 
-  /* Круг + «окно» в выпадающем меню (≤900px) */
-  .site-header__nav-visual {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: clamp(12px, 3.5vw, 20px);
-    width: 100%;
-    max-width: 100%;
-    margin: 0 0 6px;
-    padding-bottom: 2px;
+  .site-header--menu-open {
+    --menu-open-hero-block-h: min(300px, 46vh);
+  }
+
+  .site-header--menu-open .site-header__bar {
+    min-height: var(--menu-open-hero-block-h);
+    height: auto;
+  }
+
+  .site-header--menu-open .site-stack-video__el {
+    object-position: center center;
+  }
+
+  .site-header--menu-open .site-header__expand-sheet {
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .site-header--menu-open .site-header__hero-visual {
+    pointer-events: none;
+  }
+
+  .site-header--menu-open .site-header__expand-sheet .hero-glass--circle,
+  .site-header--menu-open .site-header__expand-sheet a.hero-glass__cta {
+    pointer-events: auto;
+  }
+
+  .site-header--menu-open .site-header__hero-visual .hero__grid-sticky-wrap {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    justify-items: center;
+    align-content: center;
+    min-height: 0;
+    height: 100%;
+    padding:
+      calc(var(--header-h) + clamp(6px, 1.5vh, 14px))
+      var(--page-edge-x-right)
+      clamp(12px, 2.5vh, 24px)
+      var(--page-edge-x-left);
+    row-gap: clamp(10px, 2vh, 18px);
     box-sizing: border-box;
   }
 
-  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle {
-    grid-column: auto;
-    grid-row: auto;
-    position: relative;
-    inset: auto;
-    place-self: auto;
+  .site-header--menu-open .site-header__expand-sheet .hero-glass--circle {
+    grid-column: 1;
+    grid-row: 1;
+    place-self: center;
     margin: 0;
-    margin-top: 0;
-    padding: clamp(12px, 3vw, 18px) clamp(16px, 4vw, 24px) clamp(18px, 4vw, 26px) 0;
+    margin-left: auto;
+    margin-right: auto;
+    padding: clamp(12px, 3vw, 18px) clamp(16px, 4vw, 24px) clamp(18px, 4vw, 26px);
     width: min(100%, 220px);
     max-width: 100%;
     aspect-ratio: 1;
     gap: clamp(10px, 2.8vw, 18px);
+    align-items: center;
+    text-align: center;
   }
 
-  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__title {
+  .site-header--menu-open .site-header__expand-sheet .hero-glass--circle .hero-glass__title {
     font-size: clamp(13px, 3.6vw, 20px);
     line-height: 1.14;
+    text-align: center;
   }
 
-  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__title-line--1,
-  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__title-line--2 {
+  .site-header--menu-open .site-header__expand-sheet .hero-glass--circle .hero-glass__title-line--1,
+  .site-header--menu-open .site-header__expand-sheet .hero-glass--circle .hero-glass__title-line--2 {
     white-space: normal;
   }
 
-  .site-header__nav .hero-glass--nav-sheet.hero-glass--circle .hero-glass__cta {
+  .site-header--menu-open .site-header__expand-sheet .hero-glass--circle .hero-glass__cta {
     padding: 7px 14px 8px;
     font-size: 12px;
+    align-self: center;
   }
 
-  .site-header__nav .hero-glass--nav-sheet.hero-glass--panel {
-    grid-column: auto;
-    grid-row: auto;
-    position: relative;
-    inset: auto;
-    place-self: auto;
-    margin: 0;
-    margin-left: 0;
-    margin-bottom: 0;
-    width: min(100%, 280px);
-    max-width: 100%;
-    padding: 18px 20px 22px;
-    transform: rotate(-11deg);
-    transform-origin: left center;
+  .site-header--menu-open .site-header__hero-visual .hero__subcopy--layer {
+    display: none;
   }
 
-  .site-header__nav .hero-glass--nav-sheet.hero-glass--panel .hero-panel {
-    gap: 18px;
-  }
-
-  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-glass__title {
+  html[data-header-surface="document"] .site-header--menu-open .site-header__expand-sheet .hero-glass__title {
     color: var(--color-text);
     text-shadow: 0 1px 0 rgb(255 255 255 / 0.55);
   }
 
-  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-glass {
+  html[data-header-surface="document"] .site-header--menu-open .site-header__expand-sheet .hero-glass--circle {
     border-color: rgb(13 22 39 / 0.14);
     background: rgb(255 255 255 / 0.55);
     box-shadow:
@@ -4002,23 +4265,14 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
       0 12px 36px rgb(13 22 39 / 0.06);
   }
 
-  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-panel__dot {
-    background: rgb(13 22 39 / 0.25);
-  }
-
-  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-panel__row {
-    background: rgb(13 22 39 / 0.1);
-  }
-
-  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual .hero-panel__chart path {
-    stroke: rgb(13 22 39 / 0.42);
-  }
-
-  html[data-header-surface="document"] .site-header--menu-open .site-header__nav-visual a.btn.hero-glass__cta {
+  html[data-header-surface="document"] .site-header--menu-open .site-header__expand-sheet a.btn.hero-glass__cta {
     color: var(--color-text);
   }
 
   .site-header--menu-open .site-header__nav {
+    top: var(--menu-open-hero-block-h);
+    min-height: calc(var(--menu-sheet-white-h) - var(--menu-open-hero-block-h));
+    padding: clamp(18px, 3vh, 28px) var(--page-edge-x-right) 24px var(--page-edge-x-left);
     pointer-events: auto;
     visibility: visible;
     opacity: 1;
@@ -4160,8 +4414,13 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   :root {
     --header-bar-video-pos-x: 50%;
     --header-bar-video-pos-y: 50%;
-    --page-edge-x-left: 11px;
-    --page-edge-x-right: 19px;
+    --page-pad-x: clamp(16px, 4.2vw, 22px);
+    --page-edge-x-left: max(var(--page-pad-x), var(--safe-left));
+    --page-edge-x-right: max(var(--page-pad-x), var(--safe-right));
+    --container-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --container-pad-x-right: max(var(--page-pad-x), var(--safe-right));
+    --gutter-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --gutter-pad-x-right: max(var(--page-pad-x), var(--safe-right));
   }
 
   .hero__grid-sticky-wrap {
@@ -4170,7 +4429,6 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     padding-right: var(--page-edge-x-right);
   }
 
-  /* 300–480: видео заполняет полосу бара (cover), без contain+scale — иначе «выпадает» из нав/хедера */
   .site-stack-video {
     background: rgb(8 22 52);
   }
@@ -4205,16 +4463,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .hero-glass--panel {
-    position: relative;
-    z-index: 1;
-    pointer-events: none;
-    justify-self: stretch;
-    width: calc(100% + clamp(20px, 5vw, 32px));
-    max-width: none;
-    margin-right: calc(-1 * clamp(20px, 5vw, 32px));
-    padding: 18px 18px 20px;
-    transform: translateY(-18px) rotate(-12deg);
-    transform-origin: center top;
+    display: none;
   }
 
   .hero__subcopy-item {
@@ -4645,7 +4894,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     margin: 0 auto;
     height: auto;
     padding: 60px var(--page-edge-x-right) 60px var(--page-edge-x-left);
-    gap: 30px;
+    gap: 40px;
     box-sizing: border-box;
   }
 
@@ -4659,7 +4908,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .price-card {
     flex-flow: column nowrap;
     align-items: stretch;
-    gap: 40px;
+    gap: 56px;
     padding: 30px;
   }
 
@@ -4667,7 +4916,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .price-card__details {
     width: 100%;
     max-width: none;
-    gap: 30px;
+    gap: 32px;
   }
 
   .price-left__title,
@@ -4680,7 +4929,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .price-features,
   .price-card__features {
     flex-flow: column nowrap;
-    gap: 15px;
+    gap: 24px;
   }
 
   .price-col,
@@ -4712,56 +4961,70 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
   .price-right__content,
   .price-summary {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: end;
-    gap: 0 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
     width: 100%;
+    max-width: 100%;
+    padding-top: 36px;
+    border-top: 1px solid var(--color-stroke);
   }
 
   .price-right__content::before,
   .price-summary::before {
-    content: "";
-    display: block;
-    height: 1px;
-    background: var(--color-stroke);
-    grid-column: 1 / -1;
-    grid-row: 1;
-    margin-bottom: 30px;
+    display: none;
   }
 
   .price-right__label,
   .price-summary__label {
-    display: none;
+    display: block;
+    margin: 0;
+    font-family: var(--font-headline);
+    font-weight: 500;
+    font-size: var(--fs-body);
+    line-height: 1.4;
+    color: var(--color-text);
+    white-space: normal;
   }
 
   html.layout--fluid .price-right__label,
   html.layout--fluid .price-summary__label {
-    display: none;
+    display: block;
   }
 
   .price-right__prices,
   .price-summary__prices {
-    grid-column: 1;
-    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
     min-width: 0;
+    align-self: stretch;
   }
 
   .price-right__content > .btn,
   .price-summary > .btn {
-    grid-column: 2;
-    grid-row: 2;
-    align-self: end;
+    width: 100%;
+    max-width: none;
+    align-self: stretch;
+    margin-top: 28px;
+    box-sizing: border-box;
   }
 
   .price-right__stack,
   .price-summary__stack {
     gap: 2px;
+    width: 100%;
+    align-items: flex-start;
   }
 
   .price-right__row,
   .price-summary__row {
-    gap: 0;
+    gap: clamp(10px, 3vw, 16px);
+    justify-content: flex-start;
+    width: 100%;
   }
 
   .price-right__old,
@@ -4773,6 +5036,55 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .price-summary__current {
     font-size: 34px;
     line-height: 1.02;
+  }
+
+  .price-right__or,
+  .price-summary__or {
+    margin: 12px 0;
+    text-align: left;
+  }
+
+  html.layout--fluid .price-card__features {
+    flex-flow: column nowrap;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  html.layout--fluid .price-card__feature-list,
+  html.layout--fluid .price-card__feature-list--compact {
+    flex: 1 1 auto;
+    flex-basis: auto;
+    min-width: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  .community-students {
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    height: 144px;
+    min-height: 144px;
+  }
+
+  .community-students__bg {
+    background: var(--color-white);
+  }
+
+  .community-students__avatars {
+    left: 0;
+    top: 26px;
+    padding-right: 8px;
+    margin-left: 0;
+    transform: translateX(-14px);
+  }
+
+  .community-avatar {
+    flex: 0 0 90px;
+    width: 90px;
+    height: 90px;
+    margin-right: -22.5px;
+    border-width: 3.75px;
   }
 }
 
@@ -5492,7 +5804,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   @media (max-width: 900px) {
     html.layout--fluid .price {
       padding: 60px var(--page-edge-x-right) 60px var(--page-edge-x-left);
-      gap: 30px;
+      gap: 40px;
     }
 
     html.layout--fluid .price__head {
@@ -5504,20 +5816,20 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     html.layout--fluid .price-card {
       flex-flow: column nowrap;
       align-items: stretch;
-      gap: 40px;
+      gap: 56px;
       padding: 30px;
     }
 
     html.layout--fluid .price-left,
     html.layout--fluid .price-card__details {
-      gap: 30px;
+      gap: 32px;
       max-width: none;
     }
 
     html.layout--fluid .price-features,
     html.layout--fluid .price-card__features {
       flex-flow: column nowrap;
-      gap: 15px;
+      gap: 24px;
     }
 
     html.layout--fluid .price-col,
@@ -5532,6 +5844,33 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     html.layout--fluid .price-card__summary {
       flex-flow: column nowrap;
       gap: 0;
+    }
+
+    html.layout--fluid .community-students {
+      max-width: 100%;
+      width: 100%;
+      height: 144px;
+      min-height: 144px;
+    }
+
+    html.layout--fluid .community-students__bg {
+      background: var(--color-white);
+    }
+
+    html.layout--fluid .community-students__avatars {
+      left: 0;
+      top: 26px;
+      padding-right: 8px;
+      margin-left: 0;
+      transform: translateX(-14px);
+    }
+
+    html.layout--fluid .community-avatar {
+      flex: 0 0 90px;
+      width: 90px;
+      height: 90px;
+      margin-right: -22.5px;
+      border-width: 3.75px;
     }
   }
 
@@ -6581,152 +6920,6 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     max-height: min(500px, 55vh);
   }
 
-
-  .about-card--deep .about-card__media--decor,
-  html.layout--fluid .about-card--deep .about-card__media--decor {
-    position: absolute;
-    top: 157px;
-    right: 0;
-    left: auto;
-    z-index: 1;
-    width: min(390px, 100%);
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 390 / 442;
-    min-height: 0;
-    margin: 0;
-    overflow: visible;
-    flex: none;
-    align-self: auto;
-  }
-
-  .about-card--deep .about-decor,
-  html.layout--fluid .about-card--deep .about-decor {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    min-height: 0;
-    margin: 0;
-    aspect-ratio: auto;
-    transform: none;
-  }
-
-
-  .about-card--deep .about-decor__glow,
-  html.layout--fluid .about-card--deep .about-decor__glow {
-    left: calc(100% * 131.77 / 390);
-    top: calc(100% * 184.65 / 442);
-    width: calc(100% * 217.55 / 390);
-    height: calc(100% * 359.05 / 442);
-  }
-
-  .about-card--deep .about-decor__frame,
-  html.layout--fluid .about-card--deep .about-decor__frame {
-    left: calc(100% * 131.77 / 390);
-    top: calc(100% * 184.84 / 442);
-    width: calc(100% * 217.55 / 390);
-    height: calc(100% * 303.33 / 442);
-  }
-
-  .about-card--deep .about-decor__frame-handle--tl,
-  html.layout--fluid .about-card--deep .about-decor__frame-handle--tl {
-    left: calc(100% * 124.69 / 390);
-    top: calc(100% * 177.75 / 442);
-    width: calc(100% * 14.15 / 390);
-    padding-bottom: calc(100% * 14.15 / 390);
-  }
-
-  .about-card--deep .about-decor__frame-handle--tr,
-  html.layout--fluid .about-card--deep .about-decor__frame-handle--tr {
-    left: calc(100% * 342.24 / 390);
-    top: calc(100% * 177.75 / 442);
-    width: calc(100% * 14.15 / 390);
-    padding-bottom: calc(100% * 14.15 / 390);
-  }
-
-  .about-card--deep .about-decor__you-cursor-wrap,
-  html.layout--fluid .about-card--deep .about-decor__you-cursor-wrap {
-    inset: auto calc(100% * 175.1 / 390) calc(100% * 357.28 / 442) auto;
-    width: calc(100% * 22.99 / 390);
-    padding-bottom: calc(100% * 22.99 / 390);
-  }
-
-  .about-card--deep .about-decor__pill--you,
-  html.layout--fluid .about-card--deep .about-decor__pill--you {
-    inset: auto calc(100% * 121.16 / 390) calc(100% * 321.91 / 442) auto;
-    padding: 7px 14px;
-  }
-
-  .about-card--deep .about-decor__ux-hand,
-  html.layout--fluid .about-card--deep .about-decor__ux-hand {
-    inset: auto calc(100% * 367.01 / 390) calc(100% * 155.65 / 442) auto;
-    width: calc(100% * 22.99 / 390);
-    height: calc(100% * 22.99 / 442);
-  }
-
-  .about-card--deep .about-decor__pill--ux,
-  html.layout--fluid .about-card--deep .about-decor__pill--ux {
-    inset: auto calc(100% * 295.37 / 390) calc(100% * 130.88 / 442) auto;
-    padding: 2px 7px;
-  }
-
-
-  .about-card--deep .about-decor__ellipse-group,
-  html.layout--fluid .about-card--deep .about-decor__ellipse-group {
-    left: calc(100% * 84.01 / 390);
-    top: calc(100% * 140.61 / 442);
-    width: calc(100% * 103.47 / 390);
-    padding-bottom: calc(100% * 103.47 / 390);
-    height: 0;
-  }
-
-  .about-card--deep .about-decor__ellipse-group .about-decor__dot,
-  html.layout--fluid .about-card--deep .about-decor__ellipse-group .about-decor__dot {
-    width: calc(100% * 14.15 / 103.47);
-    padding-bottom: calc(100% * 14.15 / 103.47);
-  }
-
-  .about-card--deep .about-decor__ellipse-img,
-  html.layout--fluid .about-card--deep .about-decor__ellipse-img {
-    width: 215.29%;
-    height: 215.29%;
-    object-position: 30% 30%;
-  }
-
-
-  .about-card--lime .about-card__media--photo,
-  html.layout--fluid .about-card--lime .about-card__media--photo {
-    position: absolute;
-    top: 210px;
-    right: -80px;
-    left: auto;
-    width: min(364px, 100%);
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 364 / 413;
-    min-height: 0;
-    max-height: none;
-    margin: 0;
-    overflow: hidden;
-    z-index: 1;
-  }
-
-  .about-card--lime .about-card__photo-box,
-  html.layout--fluid .about-card--lime .about-card__photo-box {
-    position: absolute;
-    inset: auto auto 0 -25px;
-    width: min(364px, 100%);
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 364 / 404;
-  }
-
-  .about-card--lime .about-card__img-crop,
-  html.layout--fluid .about-card--lime .about-card__img-crop {
-    position: absolute;
-    inset: 0;
-  }
-
   .about-decor {
     width: min(471px, 100%);
     max-width: min(471px, 100%);
@@ -6735,35 +6928,12 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     margin: 0 auto;
   }
 
-
   .about-card__media--seal {
-    position: relative;
-    height: 360px;
-    max-width: 471px;
-    margin: 0 auto;
-    overflow: hidden;
+    min-height: 260px;
   }
 
   .about-card__seal-view {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    max-width: 471px;
-    min-height: 360px;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-
-  .about-card__seal-clip {
-    left: 50%;
-    top: 0;
-    width: min(471px, 100%);
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 471 / 500;
-    margin-left: 0;
-    transform: translateX(-50%) scale(0.82);
-    transform-origin: top center;
+    min-height: 240px;
   }
 
   .section--community {
@@ -6797,9 +6967,15 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .community-students__avatars {
-    left: 22px;
-    top: 27px;
-    padding-right: 22.5px;
+    left: 0;
+    top: 26px;
+    padding-right: 4px;
+    margin-left: 0;
+    transform: translateX(-18px);
+  }
+
+  html.layout--fluid .community-students__avatars {
+    transform: translateX(-20px);
   }
 
   .community-avatar {
@@ -6955,6 +7131,13 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     overflow: hidden;
     justify-self: stretch;
     z-index: 1;
+    background: var(--color-light);
+  }
+
+  .footer-cert__right .footer-cert__layer {
+    object-fit: cover;
+    object-position: center;
+    border-radius: inherit;
   }
 
   .footer-form {
@@ -7035,8 +7218,13 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
 @media (max-width: 380px) {
   :root {
-    --page-edge-x-left: 10px;
-    --page-edge-x-right: 18px;
+    --page-pad-x: clamp(14px, 4.5vw, 18px);
+    --page-edge-x-left: max(var(--page-pad-x), var(--safe-left));
+    --page-edge-x-right: max(var(--page-pad-x), var(--safe-right));
+    --container-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --container-pad-x-right: max(var(--page-pad-x), var(--safe-right));
+    --gutter-pad-x-left: max(var(--page-pad-x), var(--safe-left));
+    --gutter-pad-x-right: max(var(--page-pad-x), var(--safe-right));
   }
 
   .section__inner {
