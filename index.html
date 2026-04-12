@@ -39,6 +39,7 @@
               playsinline
               preload="auto"
               disablepictureinpicture
+              pip="false"
               aria-hidden="true"
             >
               <source src="assets/video-project-bg.mp4" type="video/mp4" />
@@ -50,11 +51,11 @@
             <div class="hero__grain" aria-hidden="true"></div>
             <div class="hero__grid-sticky-wrap">
               <div class="hero-glass hero-glass--circle">
-                <h1 class="hero-glass__title">
+                <p class="hero-glass__title">
                   <span class="hero-glass__title-line hero-glass__title-line--1">Сделайте апгрейд</span><br />
                   <span class="hero-glass__title-line hero-glass__title-line--2">карьеры в ИТ через</span><br />
                   <span class="hero-glass__title-line hero-glass__title-line--3">практику</span>
-                </h1>
+                </p>
                 <a href="#price" class="btn hero-glass__cta">Начать учиться</a>
               </div>
               <div class="hero-glass hero-glass--panel" aria-hidden="true">
@@ -145,12 +146,141 @@
         </div>
         <div class="site-header__menu-scrim" aria-hidden="true"></div>
       </header>
+      <script>
+        (function () {
+          var header = document.querySelector('.site-header');
+          var root = document.documentElement;
+          if (!header || typeof window.matchMedia !== 'function') {
+            return;
+          }
+          if (window.matchMedia('(min-width: 481px)').matches) {
+            header.classList.add('site-header--bar-pinned-expanded');
+            header.dataset.barExpandScrollY = String(
+              window.scrollY || document.documentElement.scrollTop || 0,
+            );
+          } else {
+            header.classList.remove('site-header--bar-pinned-expanded');
+            delete header.dataset.barExpandScrollY;
+            root.style.setProperty('--header-bar-release-t', '0');
+          }
+        })();
+      </script>
       <div class="page">
       <main>
       <section
         class="section section--hero section--hero-promo section--hero-sentinel"
         aria-hidden="true"
       ></section>
+
+      <section class="section section--hero-main" aria-labelledby="hero-main-title">
+        <div class="hero-main">
+          <div class="hero-main__stage">
+            <div class="hero-main__intro-m">
+              <div class="hero-main__cluster hero-main__cluster--artur">
+                <figure class="hero-main__photo hero-main__photo--tr">
+                  <span class="hero-main__photo-bg" aria-hidden="true"></span>
+                  <div class="hero-main__photo-stack">
+                    <img
+                      class="hero-main__photo-img"
+                      src="assets/hero-main-tr-a.png"
+                      alt=""
+                      width="329"
+                      height="200"
+                      decoding="async"
+                    />
+                    <img
+                      class="hero-main__photo-img hero-main__photo-img--layer"
+                      src="assets/hero-main-tr-b.png"
+                      alt=""
+                      width="329"
+                      height="200"
+                      decoding="async"
+                    />
+                  </div>
+                </figure>
+              </div>
+              <div class="hero-main__pin hero-main__pin--artur" aria-hidden="true">
+                <div class="hero-main__pin-icon hero-main__pin-icon--hand">
+                  <img src="assets/hero-main-hand.svg" alt="" width="18" height="20" decoding="async" />
+                </div>
+                <div class="hero-main__pin-label">
+                  <span class="hero-main__pin-name">Артур</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-main__copy">
+              <h1 id="hero-main-title" class="hero-main__title">
+                <span class="hero-main__title-dash" aria-hidden="true">—</span>
+                <span class="hero-main__title-col">
+                  <span class="hero-main__title-line hero-main__title-line--a">Опыт, практика,</span>
+                  <span class="hero-main__title-line hero-main__title-line--b">актуальные знания</span>
+                </span>
+              </h1>
+              <div class="hero-main__copy-sub">
+                <p class="hero-main__lead">
+                  Главные ценности, вокруг которых строится обучение в spreent
+                </p>
+                <a href="#price" class="btn hero-main__cta"><span class="hero-main__cta-text">Начать учиться</span></a>
+              </div>
+            </div>
+
+            <div class="hero-main__collage-m">
+              <div class="hero-main__cluster hero-main__cluster--sergey">
+                <figure class="hero-main__photo hero-main__photo--tall">
+                  <span class="hero-main__photo-bg" aria-hidden="true"></span>
+                  <div class="hero-main__photo-stack">
+                    <img
+                      class="hero-main__photo-img"
+                      src="assets/hero-main-tall-a.png"
+                      alt=""
+                      width="175"
+                      height="256"
+                      decoding="async"
+                    />
+                    <img
+                      class="hero-main__photo-img hero-main__photo-img--layer"
+                      src="assets/hero-main-tall-b.png"
+                      alt=""
+                      width="175"
+                      height="256"
+                      decoding="async"
+                    />
+                  </div>
+                </figure>
+              </div>
+              <div class="hero-main__cluster hero-main__cluster--misha">
+                <figure class="hero-main__photo hero-main__photo--br">
+                  <img
+                    class="hero-main__photo-img"
+                    src="assets/hero-main-br.png"
+                    alt=""
+                    width="329"
+                    height="200"
+                    decoding="async"
+                  />
+                </figure>
+              </div>
+              <div class="hero-main__pin hero-main__pin--misha" aria-hidden="true">
+                <div class="hero-main__pin-icon hero-main__pin-icon--cursor">
+                  <img src="assets/hero-main-cursor.svg" alt="" width="26" height="26" decoding="async" />
+                </div>
+                <div class="hero-main__pin-label">
+                  <span class="hero-main__pin-name">Миша</span>
+                </div>
+              </div>
+              <div class="hero-main__pin hero-main__pin--sergey" aria-hidden="true">
+                <div class="hero-main__pin-icon hero-main__pin-icon--cursor">
+                  <img src="assets/hero-main-cursor.svg" alt="" width="26" height="26" decoding="async" />
+                </div>
+                <div class="hero-main__pin-label">
+                  <span class="hero-main__pin-name">Сергей</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section id="about" class="section section--about">
         <div class="section__inner section__inner--about">
@@ -165,7 +295,7 @@
               <div class="about-card__copy">
                 <div class="about-card__head">
                   <span class="about-card__tag">Что я получу?</span>
-                  <h3 class="about-card__h">Практические<br />навыки</h3>
+                  <h3 class="about-card__h">Практические навыки</h3>
                 </div>
                 <p class="about-card__lede">
                   Даем конкретные знания по&nbsp;профессии. Тренируемся на&nbsp;реальных проектах<br class="about-card__br about-card__br--deep" />
@@ -277,10 +407,10 @@
               <div class="about-card__copy">
                 <div class="about-card__head">
                   <span class="about-card__tag">Что мне дадут?</span>
-                  <h3 class="about-card__h">Актуальные<br />знания</h3>
+                  <h3 class="about-card__h">Актуальные знания</h3>
                 </div>
                 <p class="about-card__lede">
-                  Знаем, какие навыки нужны работодателям. Составляем программы, ориентируясь на&nbsp;тенденции&nbsp;рынка
+                  Знаем, какие навыки нужны работодателям. Составляем программы, ориентируясь на тенденции рынка
                 </p>
               </div>
               <div class="about-card__media about-card__media--seal" aria-hidden="true">
@@ -289,6 +419,7 @@
                     <div class="about-card__seal-stage">
                       <div class="about-card__seal-rotor">
                         <div class="about-card__seal-frame">
+                          <div class="about-card__seal-core" aria-hidden="true"></div>
                           <picture>
                             <source type="image/webp" srcset="assets/about-seal-figma.webp" />
                             <img
@@ -383,81 +514,82 @@
 
           <div class="price-card">
             <div class="price-card__details">
-              <h3 class="price-card__title">Базовый план</h3>
+              <div class="price-card__body">
+                <h3 class="price-card__title">Базовый план</h3>
 
-              <div class="price-card__features">
-                <ul class="price-card__feature-list">
-                  <li class="price-card__feature-item">
-                    <span class="price-icon" aria-hidden="true">
-                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
-                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
-                    </span>
-                    <p class="price-text">Доступ к материалам навсегда</p>
-                  </li>
-                  <li class="price-card__feature-item">
-                    <span class="price-icon" aria-hidden="true">
-                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
-                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
-                    </span>
-                    <p class="price-text">С обратной связью и д/з</p>
-                  </li>
-                  <li class="price-card__feature-item">
-                    <span class="price-icon" aria-hidden="true">
-                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
-                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
-                    </span>
-                    <p class="price-text">Ревью портфолио и резюме</p>
-                  </li>
-                </ul>
+                <div class="price-card__features">
+                  <ul class="price-card__feature-list">
+                    <li class="price-card__feature-item">
+                      <span class="price-icon" aria-hidden="true">
+                        <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                        <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                      </span>
+                      <p class="price-text">Доступ к материалам навсегда</p>
+                    </li>
+                    <li class="price-card__feature-item">
+                      <span class="price-icon" aria-hidden="true">
+                        <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                        <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                      </span>
+                      <p class="price-text">С обратной связью и д/з</p>
+                    </li>
+                    <li class="price-card__feature-item">
+                      <span class="price-icon" aria-hidden="true">
+                        <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                        <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                      </span>
+                      <p class="price-text">Ревью портфолио и резюме</p>
+                    </li>
+                  </ul>
 
-                <ul class="price-card__feature-list price-card__feature-list--compact">
-                  <li class="price-card__feature-item">
-                    <span class="price-icon" aria-hidden="true">
-                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
-                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
-                    </span>
-                    <p class="price-text">Начало сразу или с группой</p>
-                  </li>
-                  <li class="price-card__feature-item">
-                    <span class="price-icon" aria-hidden="true">
-                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
-                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
-                    </span>
-                    <p class="price-text">Скидка 24% при полной оплате</p>
-                  </li>
-                  <li class="price-card__feature-item">
-                    <span class="price-icon" aria-hidden="true">
-                      <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
-                      <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
-                    </span>
-                    <p class="price-text">Сертификат по окончанию курса</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="price-card__summary">
-              <div class="price-summary__divider" aria-hidden="true">
-                <img src="assets/price-vline-figma.svg" alt="" width="270" height="1" decoding="async" />
+                  <ul class="price-card__feature-list price-card__feature-list--compact">
+                    <li class="price-card__feature-item">
+                      <span class="price-icon" aria-hidden="true">
+                        <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                        <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                      </span>
+                      <p class="price-text">Начало сразу или с группой</p>
+                    </li>
+                    <li class="price-card__feature-item">
+                      <span class="price-icon" aria-hidden="true">
+                        <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                        <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                      </span>
+                      <p class="price-text">Скидка 24% при полной оплате</p>
+                    </li>
+                    <li class="price-card__feature-item">
+                      <span class="price-icon" aria-hidden="true">
+                        <img src="assets/price-check-outer.svg" alt="" width="24" height="24" decoding="async" />
+                        <img src="assets/price-check-inner.svg" alt="" width="11" height="8" decoding="async" class="price-icon__inner" />
+                      </span>
+                      <p class="price-text">Сертификат по окончанию курса</p>
+                    </li>
+                  </ul>
+                </div>
               </div>
 
-              <div class="price-summary">
-                <div class="price-summary__prices">
-                  <p class="price-summary__label">Стоимость</p>
-                  <div class="price-summary__stack">
-                    <div class="price-summary__row">
-                      <span class="price-summary__current">83 890 ₽</span>
-                      <span class="price-summary__old">110 388 ₽</span>
-                    </div>
-                    <p class="price-summary__or">или</p>
-                    <div class="price-summary__row">
-                      <span class="price-summary__current">419 000 ₸</span>
-                      <span class="price-summary__old">552 000 ₸</span>
+              <div class="price-card__summary">
+                <div class="price-summary__rule" aria-hidden="true"></div>
+                <div class="price-summary__divider" aria-hidden="true"></div>
+
+                <div class="price-summary">
+                  <div class="price-summary__prices">
+                    <p class="price-summary__label">Стоимость</p>
+                    <div class="price-summary__stack">
+                      <div class="price-summary__row">
+                        <span class="price-summary__current">83 890 ₽</span>
+                        <span class="price-summary__old">110 388 ₽</span>
+                      </div>
+                      <p class="price-summary__or">или</p>
+                      <div class="price-summary__row">
+                        <span class="price-summary__current">419 000 ₸</span>
+                        <span class="price-summary__old">552 000 ₸</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <a href="#form" class="btn">Купить курс</a>
+                  <a href="#form" class="btn">Купить курс</a>
+                </div>
               </div>
             </div>
           </div>
@@ -593,7 +725,7 @@
 
         <section id="form" class="footer-form">
           <h2 class="h2 h2--white">Сделайте апгрейд карьеры</h2>
-          <form class="footer-form__fields" action="http://echo.htmlacademy.ru/" method="post" novalidate>
+          <form class="footer-form__fields" action="https://echo.htmlacademy.ru/" method="post" novalidate>
             <label class="footer-form__field">
               <span class="visually-hidden">Имя</span>
               <input id="lead-name" type="text" name="name" class="footer-form__input" placeholder="Имя" autocomplete="name" required />
@@ -678,18 +810,19 @@
         }
         var y = window.scrollY || root.scrollTop;
         var gate = 28;
-        var about = document.querySelector('#about');
+        var surfaceSection =
+          document.querySelector('.section--hero-main') || document.querySelector('#about');
         var inner = document.querySelector('.site-header__inner');
         var t = 0;
-        if (y >= gate && inner && about) {
+        if (y >= gate && inner && surfaceSection) {
           var barBottom = inner.getBoundingClientRect().bottom;
-          var aboutTop = about.getBoundingClientRect().top;
-          var d = aboutTop - barBottom;
+          var sectionTop = surfaceSection.getBoundingClientRect().top;
+          var d = sectionTop - barBottom;
           var range = 168;
           t = 1 - Math.min(1, Math.max(0, d / range));
         }
         root.style.setProperty('--header-surface-t', t.toFixed(4));
-        root.style.setProperty('--header-bar-video-open', '0');
+        root.style.setProperty('--header-bar-video-open', '1');
         root.style.setProperty('--header-bar-release-t', '0');
         root.dataset.headerSurface = t >= 0.5 ? 'document' : 'hero';
         root.style.removeProperty('--header-shrink-t');

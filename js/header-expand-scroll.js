@@ -12,9 +12,10 @@ const SCRUB_STEP_DT_CAP_MS = 80;
 const FRAME_STEP_MS = 1000 / 60;
 const COLLAPSE_RESCHEDULE_ERROR_EPSILON = 0.003;
 const COLLAPSE_RESCHEDULE_TARGET_LEAD_PX = 0.35;
-const SCROLL_PIN_SLIPPAGE_EPSILON_PX = 0.5;
-const MOBILE_NAV_BREAKPOINT_MAX_PX = 900;
-const DESKTOP_BAR_BREAKPOINT_MIN_PX = 901;
+const SCROLL_PIN_SLIPPAGE_EPSILON_PX = 2;
+const SCROLL_PIN_DEBOUNCE_MS = 28;
+const MOBILE_NAV_BREAKPOINT_MAX_PX = 480;
+const DESKTOP_BAR_BREAKPOINT_MIN_PX = 481;
 
 function clamp(value, minValue, maxValue) {
   return Math.min(maxValue, Math.max(minValue, value));
@@ -28,9 +29,20 @@ function isDesktopBarCollapse() {
   return window.matchMedia(`(min-width: ${DESKTOP_BAR_BREAKPOINT_MIN_PX}px)`).matches;
 }
 
-function setBarVideoOpen(header, root) {
-  const open = header?.classList.contains('site-header--bar-pinned-expanded') ? '1' : '0';
-  root.style.setProperty('--header-bar-video-open', open);
+function setBarVideoOpen(_header, root) {
+  root.style.setProperty('--header-bar-video-open', '1');
+}
+
+let collapseFinishCallback = null;
+
+let collapseBarForAnchorImpl = (onDone) => {
+  if (typeof onDone === 'function') {
+    queueMicrotask(onDone);
+  }
+};
+
+export function collapseHeaderBarForAnchorThen(onDone) {
+  collapseBarForAnchorImpl(onDone);
 }
 
 function clearBarExpandSession(header, root) {
@@ -44,17 +56,18 @@ function computeSurfaceT() {
     return 0;
   }
 
-  const aboutSection = document.querySelector('#about');
+  const surfaceSection =
+    document.querySelector('.section--hero-main') || document.querySelector('#about');
   const inner = document.querySelector('.site-header__inner');
   if (!inner) {
     return 0;
   }
 
   let surfaceBlendT;
-  if (aboutSection) {
+  if (surfaceSection) {
     const barBottomPx = inner.getBoundingClientRect().bottom;
-    const aboutTopPx = aboutSection.getBoundingClientRect().top;
-    const gapPx = aboutTopPx - barBottomPx;
+    const sectionTopPx = surfaceSection.getBoundingClientRect().top;
+    const gapPx = sectionTopPx - barBottomPx;
     surfaceBlendT = 1 - Math.min(1, Math.max(0, gapPx / BLEND_RANGE_PX));
   } else {
     surfaceBlendT = Math.min(1, Math.max(0, (scrollY - HERO_SCROLL_GATE_PX) / SURFACE_T_FALLBACK_SCROLL_DIVISOR_PX));
@@ -71,11 +84,23 @@ export function initHeaderExpandOnScroll() {
   const header = document.querySelector('.site-header');
   header?.classList.remove('site-header--collapse-from-top');
 
+  if (header) {
+    if (isDesktopBarCollapse()) {
+      header.classList.add('site-header--bar-pinned-expanded');
+      header.dataset.barExpandScrollY = String(window.scrollY || document.documentElement.scrollTop || 0);
+    } else {
+      header.classList.remove('site-header--bar-pinned-expanded');
+      clearBarExpandSession(header, root);
+    }
+  }
+
   let targetCollapsePx = 0;
   let smoothCollapsePx = 0;
   let lastBarExpandKey = '';
   let collapseAnimationFrameId = 0;
   let lastCollapseStepTimestampMs = 0;
+  let collapseSmoothTauMs = SMOOTH_TAU_MS;
+  let lastProgrammaticPinMs = 0;
 
   function resetCollapseSessionIfNeeded() {
     const key = header?.dataset.barExpandScrollY ?? '';
@@ -103,10 +128,17 @@ export function initHeaderExpandOnScroll() {
     cancelCollapseAnimationFrame();
     lastCollapseStepTimestampMs = 0;
     root.style.setProperty('--header-bar-release-t', '0');
+    collapseSmoothTauMs = SMOOTH_TAU_MS;
     setBarVideoOpen(header, root);
     if (overflowPx > 0) {
+      lastProgrammaticPinMs = performance.now();
       window.scrollTo({ top: pinnedScrollY + overflowPx, left: 0, behavior: 'auto' });
+    } else {
+      lastProgrammaticPinMs = performance.now();
     }
+    const done = collapseFinishCallback;
+    collapseFinishCallback = null;
+    done?.();
   }
 
   function stepCollapseSmooth(nowMs) {
@@ -132,7 +164,7 @@ export function initHeaderExpandOnScroll() {
         ? Math.min(timestampMs - lastCollapseStepTimestampMs, SCRUB_STEP_DT_CAP_MS)
         : FRAME_STEP_MS;
       lastCollapseStepTimestampMs = timestampMs;
-      const alpha = 1 - Math.exp(-deltaMs / SMOOTH_TAU_MS);
+      const alpha = 1 - Math.exp(-deltaMs / collapseSmoothTauMs);
       smoothCollapsePx += (capPx - smoothCollapsePx) * alpha;
       if (Math.abs(capPx - smoothCollapsePx) < IDLE_CONVERGENCE_EPSILON_PX) {
         smoothCollapsePx = capPx;
@@ -183,23 +215,32 @@ export function initHeaderExpandOnScroll() {
       return;
     }
 
+    const pinnedRounded = Math.round(pinnedScrollY);
+    const scrollYRaw = window.scrollY || root.scrollTop;
+    const scrollRounded = Math.round(scrollYRaw);
+
     if (isDesktopBarCollapse() && !prefersReducedMotion()) {
-      const scrollYNow = window.scrollY || root.scrollTop;
-      if (Math.abs(scrollYNow - pinnedScrollY) > SCROLL_PIN_SLIPPAGE_EPSILON_PX) {
-        window.scrollTo({ top: pinnedScrollY, left: 0, behavior: 'auto' });
+      const driftPx = Math.abs(scrollRounded - pinnedRounded);
+      if (driftPx > SCROLL_PIN_SLIPPAGE_EPSILON_PX) {
+        const t = performance.now();
+        if (t - lastProgrammaticPinMs >= SCROLL_PIN_DEBOUNCE_MS) {
+          lastProgrammaticPinMs = t;
+          window.scrollTo({ top: pinnedRounded, left: 0, behavior: 'auto' });
+        }
       }
       scheduleCollapseStep();
       return;
     }
 
-    const scrollY = window.scrollY || root.scrollTop;
-    if (scrollY < pinnedScrollY) {
-      window.scrollTo({ top: pinnedScrollY, left: 0, behavior: 'auto' });
+    const scrollY = scrollRounded;
+    if (scrollY < pinnedRounded) {
+      lastProgrammaticPinMs = performance.now();
+      window.scrollTo({ top: pinnedRounded, left: 0, behavior: 'auto' });
       scheduleCollapseStep();
       return;
     }
 
-    const deltaDownPx = scrollY - pinnedScrollY;
+    const deltaDownPx = scrollY - pinnedRounded;
     if (deltaDownPx <= 0) {
       scheduleCollapseStep();
       return;
@@ -211,7 +252,8 @@ export function initHeaderExpandOnScroll() {
       targetCollapsePx += deltaDownPx;
     }
 
-    window.scrollTo({ top: pinnedScrollY, left: 0, behavior: 'auto' });
+    lastProgrammaticPinMs = performance.now();
+    window.scrollTo({ top: pinnedRounded, left: 0, behavior: 'auto' });
     scheduleCollapseStep();
   }
 
@@ -263,6 +305,8 @@ export function initHeaderExpandOnScroll() {
 
     if (header?.classList.contains('site-header--bar-pinned-expanded')) {
       if (surfaceT >= UNPIN_AT_SURFACE_T) {
+        const pendingDone = collapseFinishCallback;
+        collapseFinishCallback = null;
         header.classList.remove('site-header--bar-pinned-expanded');
         clearBarExpandSession(header, root);
         lastBarExpandKey = '';
@@ -270,10 +314,13 @@ export function initHeaderExpandOnScroll() {
         smoothCollapsePx = 0;
         lastCollapseStepTimestampMs = 0;
         cancelCollapseAnimationFrame();
+        collapseSmoothTauMs = SMOOTH_TAU_MS;
+        pendingDone?.();
       }
     } else {
       cancelCollapseAnimationFrame();
       root.style.setProperty('--header-bar-release-t', '0');
+      collapseSmoothTauMs = SMOOTH_TAU_MS;
     }
 
     setBarVideoOpen(header, root);
@@ -290,6 +337,28 @@ export function initHeaderExpandOnScroll() {
       sync();
     });
   }
+
+  collapseBarForAnchorImpl = (onDone) => {
+    if (typeof onDone !== 'function') {
+      return;
+    }
+    if (!header?.classList.contains('site-header--bar-pinned-expanded')) {
+      onDone();
+      return;
+    }
+
+    const pinnedScrollY = Number(header.dataset.barExpandScrollY);
+    if (!Number.isFinite(pinnedScrollY)) {
+      onDone();
+      return;
+    }
+
+    cancelCollapseAnimationFrame();
+    collapseFinishCallback = () => {
+      requestAnimationFrame(onDone);
+    };
+    finishCollapseAndScrollMain(pinnedScrollY, 0);
+  };
 
   sync();
   window.addEventListener('scroll', onScrollOrResize, { passive: true });

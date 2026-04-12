@@ -14,7 +14,7 @@ export function initHeroSubcopyPosition() {
   }
 
   function isCompact() {
-    return window.innerWidth <= 900;
+    return window.innerWidth <= 480;
   }
 
   function heroVisualRoot() {

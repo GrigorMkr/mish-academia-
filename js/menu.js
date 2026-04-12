@@ -1,4 +1,21 @@
-const MOBILE_NAV_BREAKPOINT_MAX_PX = 900;
+const MOBILE_NAV_BREAKPOINT_MAX_PX = 480;
+
+export function closeSiteMenu() {
+  const header = document.querySelector('.site-header');
+  const burger = document.querySelector('.site-header__burger');
+  if (!header) {
+    return;
+  }
+  if (!header.classList.contains('site-header--menu-open')) {
+    return;
+  }
+  header.classList.remove('site-header--menu-open');
+  if (burger) {
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Открыть меню');
+  }
+  document.body.style.overflow = '';
+}
 
 export function initSiteMenu() {
   const header = document.querySelector('.site-header');

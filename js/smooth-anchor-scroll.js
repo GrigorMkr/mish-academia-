@@ -1,3 +1,6 @@
+import { closeSiteMenu } from './menu.js';
+import { collapseHeaderBarForAnchorThen } from './header-expand-scroll.js';
+
 const SCROLL_DURATION_MS_MIN = 420;
 const SCROLL_DURATION_MS_MAX = 1300;
 const SCROLL_DURATION_MS_PER_PX = 0.52;
@@ -129,29 +132,31 @@ export function initSmoothAnchorScroll() {
         return;
       }
 
-      let parsedUrl;
-      try {
-        parsedUrl = new URL(anchor.href);
-      } catch {
+      const rawHref = (anchor.getAttribute('href') ?? '').trim();
+      if (!rawHref.startsWith('#') || rawHref === '#') {
         return;
       }
 
-      if (parsedUrl.origin !== location.origin || parsedUrl.pathname !== location.pathname) {
-        return;
-      }
+      const hash = rawHref;
 
-      if ((anchor.getAttribute('href') ?? '').trim() === '#') {
-        return;
-      }
-
-      const hash = parsedUrl.hash || '#';
       const targetY = resolveAnchorScrollTargetY(hash);
       if (targetY === null) {
         return;
       }
 
+      closeSiteMenu();
+
       event.preventDefault();
-      scrollWindowToYWithEasing(targetY, () => replaceHistoryWithHash(hash));
+
+      const scrollToTarget = () => {
+        scrollWindowToYWithEasing(targetY, () => replaceHistoryWithHash(hash));
+      };
+
+      if (anchor.closest('.site-header')) {
+        collapseHeaderBarForAnchorThen(scrollToTarget);
+      } else {
+        scrollToTarget();
+      }
     },
     true,
   );
