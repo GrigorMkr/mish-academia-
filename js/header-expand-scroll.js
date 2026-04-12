@@ -29,6 +29,13 @@ function isDesktopBarCollapse() {
   return window.matchMedia(`(min-width: ${DESKTOP_BAR_BREAKPOINT_MIN_PX}px)`).matches;
 }
 
+function shouldPinScrollForBarCollapse() {
+  if (typeof window.matchMedia !== 'function') {
+    return true;
+  }
+  return !window.matchMedia('(pointer: coarse)').matches;
+}
+
 function setBarVideoOpen(_header, root) {
   root.style.setProperty('--header-bar-video-open', '1');
 }
@@ -205,6 +212,10 @@ export function initHeaderExpandOnScroll() {
 
   function consumeScrollForBarCollapse() {
     if (!header?.classList.contains('site-header--bar-pinned-expanded')) {
+      return;
+    }
+
+    if (!shouldPinScrollForBarCollapse()) {
       return;
     }
 

@@ -76,6 +76,8 @@ function scrollWindowToYWithEasing(targetY, onComplete) {
 
   if (prefersReducedMotion()) {
     window.scrollTo({ top: clampedY, left: 0, behavior: 'auto' });
+    document.documentElement.scrollTop = clampedY;
+    document.body.scrollTop = clampedY;
     onComplete?.();
     return;
   }
@@ -88,11 +90,17 @@ function scrollWindowToYWithEasing(targetY, onComplete) {
     const progress = Math.min(1, elapsedMs / durationMs);
     const easedY = startY + deltaY * easeOutQuart(progress);
     window.scrollTo({ top: easedY, left: 0, behavior: 'auto' });
+    if (typeof window.scrollY === 'number' && Math.abs(window.scrollY - easedY) > 1) {
+      document.documentElement.scrollTop = easedY;
+      document.body.scrollTop = easedY;
+    }
     if (progress < 1) {
       smoothScrollFrameId = requestAnimationFrame(tick);
     } else {
       smoothScrollFrameId = 0;
       window.scrollTo({ top: clampedY, left: 0, behavior: 'auto' });
+      document.documentElement.scrollTop = clampedY;
+      document.body.scrollTop = clampedY;
       onComplete?.();
     }
   }

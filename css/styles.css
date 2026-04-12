@@ -421,6 +421,10 @@ html[data-header-surface="document"] .site-header {
   html[data-header-surface="document"] .site-header:not(.site-header--bar-pinned-expanded) .site-header__bar {
     cursor: default;
   }
+
+  html[data-header-surface="document"] .site-header__bar {
+    border-bottom: none;
+  }
 }
 
 .site-header__bar {
@@ -1128,6 +1132,19 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   z-index: 1;
   border-radius: inherit;
   overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+html.hero-collage-painted .hero-main__photo-stack {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-main__photo-stack {
+    opacity: 1;
+    transition: none;
+  }
 }
 
 .hero-main__photo-stack .hero-main__photo-img {
@@ -5526,7 +5543,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
 
 @media (max-width: 480px) {
   .about-card--muted {
-    --about-muted-seal-scale: 1.12;
+    --about-muted-seal-scale: 0.98;
   }
 
   .about-card--muted .about-card__copy {
@@ -5539,15 +5556,16 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     left: 0;
     right: 0;
     width: 100%;
-    height: min(88vw, 460px);
-    min-height: 340px;
-    max-height: 480px;
+    height: min(80vw, 420px);
+    min-height: 300px;
+    max-height: 440px;
     margin: 0;
-    padding: clamp(24px, 8vw, 48px) 0 0;
+    padding: clamp(16px, 5vw, 36px) 0 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
+    overflow: hidden;
+    border-radius: 0 0 32px 32px;
   }
 
   .about-card--muted .about-card__seal-view {
@@ -5561,7 +5579,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .about-card--muted .about-card__seal-clip {
@@ -5574,7 +5592,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     max-width: none;
     min-height: 0;
     aspect-ratio: unset;
-    overflow: visible;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5587,9 +5605,13 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     height: 756.63px;
     margin: 0;
     transform:
-      translate(calc(-50% + 84px), calc(-50% + 22px)) scale(
+      translate(
+        calc(-50% + clamp(8px, 6vw, 52px)),
+        calc(-50% + 12px)
+      )
+      scale(
         calc(
-          min(1, 100cqi / 450px, 420px / 556px) * (438.44 / 556) *
+          min(1, 100cqi / 450px, 400px / 556px) * (438.44 / 556) *
           var(--about-muted-seal-scale)
         )
       );
@@ -7861,13 +7883,12 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .about-card--muted {
-    --about-muted-seal-scale: 1.18;
     width: 100%;
     max-width: 100%;
     min-height: 600px;
     margin: 0;
     box-sizing: border-box;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .about-card__copy {
@@ -7936,9 +7957,9 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     width: 100%;
     max-width: 100%;
     height: auto;
-    aspect-ratio: 364 / 413;
-    min-height: 220px;
-    max-height: none;
+    aspect-ratio: 4 / 3;
+    min-height: 0;
+    max-height: min(240px, 42vw);
     margin: 0 auto;
     overflow: hidden;
     flex: 0 0 auto;
@@ -7983,7 +8004,7 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
     left: 0;
     top: 0;
     object-fit: cover;
-    object-position: 50% 22%;
+    object-position: 50% 18%;
     filter: grayscale(1);
   }
 
@@ -7992,11 +8013,12 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 
   .about-card--muted .about-card__media--seal {
-    height: min(88vw, 460px);
-    min-height: 340px;
-    max-height: 480px;
-    padding: clamp(24px, 8vw, 48px) 0 0;
-    overflow: visible;
+    height: min(80vw, 420px);
+    min-height: 300px;
+    max-height: 440px;
+    padding: clamp(16px, 5vw, 36px) 0 0;
+    overflow: hidden;
+    border-radius: 0 0 32px 32px;
   }
 
   .about-card__seal-view {
@@ -8292,6 +8314,12 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   }
 }
 
+@media (max-width: 430px) {
+  .about-card--muted {
+    --about-muted-seal-scale: 0.94;
+  }
+}
+
 @media (max-width: 380px) {
   :root {
     --page-pad-x: 15px;
@@ -8347,5 +8375,9 @@ html[data-header-surface="document"] .site-header__brand.logo-spreent .logo-spre
   .footer-cert__card {
     padding-left: var(--page-edge-x-left);
     padding-right: var(--page-edge-x-right);
+  }
+
+  .about-card--muted {
+    --about-muted-seal-scale: 0.88;
   }
 }

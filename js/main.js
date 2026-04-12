@@ -10,6 +10,7 @@ import { initHeroSubcopyPosition } from './hero-subcopy-position.js';
 import { initFooterCertReveal } from './footer-cert-reveal.js';
 import { initHeroSubcopyTyping } from './hero-subcopy-typing.js';
 import { initHeroTitleTyping } from './hero-title-typing.js';
+import { initHeroCollageReady } from './hero-collage-ready.js';
 
 function safeInit(initFn) {
   try {
@@ -19,6 +20,7 @@ function safeInit(initFn) {
   }
 }
 
+safeInit(initHeroCollageReady);
 safeInit(initButtonBlur);
 safeInit(initSiteMenu);
 safeInit(initHeaderExpandOnScroll);
