@@ -5,6 +5,10 @@ function tryPlay(video) {
     return;
   }
   video.muted = true;
+  video.defaultMuted = true;
+  if ('playsInline' in video) {
+    video.playsInline = true;
+  }
   const p = video.play();
   if (p !== undefined && typeof p.catch === 'function') {
     p.catch(() => {});
@@ -16,6 +20,14 @@ export function initHeaderBarVideo() {
   if (!video) {
     return;
   }
+
+  video.setAttribute('playsinline', '');
+  video.setAttribute('webkit-playsinline', '');
+  if ('playsInline' in video) {
+    video.playsInline = true;
+  }
+  video.muted = true;
+  video.defaultMuted = true;
 
   video.addEventListener(
     'error',
@@ -32,13 +44,18 @@ export function initHeaderBarVideo() {
     return;
   }
 
-  video.muted = true;
   video.loop = true;
   video.playbackRate = PLAYBACK_RATE;
+  video.setAttribute('disablePictureInPicture', '');
 
-  video.addEventListener('loadedmetadata', () => {
+  const onReady = () => {
     video.playbackRate = PLAYBACK_RATE;
-  });
+    tryPlay(video);
+  };
+
+  video.addEventListener('loadedmetadata', onReady);
+  video.addEventListener('loadeddata', onReady);
+  video.addEventListener('canplay', onReady);
 
   video.addEventListener('pause', () => {
     if (video.hidden || document.hidden || video.error) {

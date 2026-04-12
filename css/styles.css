@@ -468,6 +468,7 @@ html[data-header-surface="document"] .site-header {
       )
     );
   overflow: hidden;
+  pointer-events: none;
   transition:
     min-height 0.55s cubic-bezier(0.22, 1, 0.36, 1),
     height 0.55s cubic-bezier(0.22, 1, 0.36, 1),
@@ -538,6 +539,14 @@ html[data-header-surface="document"] .site-header {
   pointer-events: none;
 }
 
+.site-header__hero-visual .hero-glass--circle {
+  pointer-events: none;
+}
+
+.site-header__hero-visual a.hero-glass__cta {
+  pointer-events: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-stack-video__el {
     display: none;
@@ -556,6 +565,7 @@ html[data-header-surface="document"] .site-header {
   position: relative;
   z-index: 10;
   pointer-events: auto;
+  touch-action: manipulation;
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -7958,8 +7968,8 @@ html.hero-collage-painted .hero-main__photo-stack {
     max-width: 100%;
     height: auto;
     aspect-ratio: 4 / 3;
-    min-height: 0;
-    max-height: min(240px, 42vw);
+    min-height: clamp(120px, 52vw, 240px);
+    max-height: min(240px, 60vw);
     margin: 0 auto;
     overflow: hidden;
     flex: 0 0 auto;

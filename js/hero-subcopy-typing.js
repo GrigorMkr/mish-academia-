@@ -6,6 +6,21 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function waitUntilDocumentVisible() {
+  if (document.visibilityState === 'visible') {
+    return Promise.resolve();
+  }
+  return new Promise((resolve) => {
+    const onVis = () => {
+      if (document.visibilityState === 'visible') {
+        document.removeEventListener('visibilitychange', onVis);
+        resolve();
+      }
+    };
+    document.addEventListener('visibilitychange', onVis);
+  });
+}
+
 async function typeRow(row, text, { charDelayMs }) {
   row.classList.add('hero__subcopy-row--typing');
   row.textContent = '';
@@ -43,22 +58,53 @@ export function initHeroSubcopyTyping() {
     return;
   }
 
+  const backup = texts.slice();
+
   rows.forEach((r) => {
     r.textContent = '';
   });
 
-  (async () => {
-    await sleep(250);
+  const restoreAll = () => {
+    rows.forEach((r, i) => {
+      r.textContent = backup[i] ?? '';
+    });
+    rows.forEach((r) => r.classList.remove('hero__subcopy-row--typing'));
+  };
 
-    for (let i = 0; i < rows.length; i++) {
-      const row = rows[i];
-      const text = texts[i];
-      if (!text) {
-        continue;
+  (async () => {
+    let failSafeTimer = 0;
+    try {
+      await waitUntilDocumentVisible();
+      await sleep(250);
+
+      const expectedLen = backup.reduce((n, t) => n + (t ? t.length : 0), 0);
+      if (expectedLen > 0) {
+        failSafeTimer = window.setTimeout(() => {
+          const got = rows.reduce((n, r) => n + (r.textContent || '').length, 0);
+          if (got === 0) {
+            restoreAll();
+          }
+        }, 12000);
       }
 
-      await typeRow(row, text, { charDelayMs: 22 });
-      await sleep(i === rows.length - 1 ? 0 : 180);
+      for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const text = texts[i];
+        if (!text) {
+          continue;
+        }
+
+        await typeRow(row, text, { charDelayMs: 22 });
+        await sleep(i === rows.length - 1 ? 0 : 180);
+      }
+      if (failSafeTimer) {
+        window.clearTimeout(failSafeTimer);
+      }
+    } catch {
+      restoreAll();
+      if (failSafeTimer) {
+        window.clearTimeout(failSafeTimer);
+      }
     }
   })();
 }
