@@ -2627,6 +2627,7 @@ html.hero-collage-painted .hero-main__photo-stack {
   transform: rotate(-30deg);
   transform-origin: 50% 50%;
   will-change: transform;
+  animation: about-seal-spin 18s linear infinite;
 }
 
 .about-card__seal-frame {
@@ -2671,10 +2672,21 @@ html.hero-collage-painted .hero-main__photo-stack {
   pointer-events: none;
 }
 
+@keyframes about-seal-spin {
+  from {
+    transform: rotate(-30deg);
+  }
+
+  to {
+    transform: rotate(330deg);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .about-card__seal-rotor {
     will-change: auto;
     transform: rotate(-30deg);
+    animation: none;
   }
 }
 
@@ -3656,6 +3668,63 @@ html.hero-collage-painted .hero-main__photo-stack {
   .price-card__body {
     flex: 1 1 auto;
     min-width: min(100%, 18rem);
+  }
+}
+
+@media (min-width: 1200px) {
+  .price-card,
+  html.layout--fluid .price-card {
+    padding: 30px;
+  }
+
+  .price-card__body,
+  html.layout--fluid .price-card__body {
+    gap: 140px;
+  }
+
+  .price-card__features,
+  html.layout--fluid .price-card__features {
+    flex-wrap: nowrap;
+    gap: 15px;
+  }
+
+  .price-card__feature-list,
+  html.layout--fluid .price-card__feature-list {
+    flex: 0 0 412px;
+    min-width: 412px;
+    gap: 10px;
+  }
+
+  .price-card__feature-list--compact,
+  html.layout--fluid .price-card__feature-list--compact {
+    flex-basis: 328px;
+    min-width: 328px;
+  }
+
+  .price-card__summary,
+  html.layout--fluid .price-card__summary {
+    flex: 0 0 413px;
+    width: 413px;
+    flex-wrap: nowrap;
+    gap: 40px;
+    justify-content: flex-start;
+  }
+
+  .price-summary__divider,
+  html.layout--fluid .price-summary__divider {
+    display: block;
+    height: 270px;
+    align-self: center;
+  }
+
+  .price-summary,
+  html.layout--fluid .price-summary {
+    gap: 150px;
+  }
+
+  .price-summary > .btn,
+  html.layout--fluid .price-summary > .btn {
+    align-self: center;
   }
 }
 
@@ -4952,8 +5021,7 @@ html.hero-collage-painted .hero-main__photo-stack {
   .site-header--menu-open .site-header__expand-sheet .hero-glass--circle,
   .site-header--menu-open .site-header__expand-sheet .hero-glass--panel,
   .site-header--menu-open .site-header__hero-visual .hero__subcopy--layer {
-    /* stylelint-disable-next-line declaration-no-important */
-    display: none !important;
+    display: none;
   }
 
   .site-header--menu-open .site-header__nav {
@@ -5557,7 +5625,7 @@ html.hero-collage-painted .hero-main__photo-stack {
   }
 
   .about-card--muted .about-card__copy {
-    padding-bottom: clamp(220px, 48vw, 280px);
+    padding-bottom: 0;
   }
 
   .about-card--muted .about-card__media--seal {
@@ -5660,7 +5728,7 @@ html.hero-collage-painted .hero-main__photo-stack {
   .price-card {
     flex-flow: column nowrap;
     align-items: stretch;
-    gap: 0;
+    gap: 40px;
     padding: 30px;
     border-radius: 32px;
     width: 100%;
@@ -5682,10 +5750,7 @@ html.hero-collage-painted .hero-main__photo-stack {
   }
 
   .price-card__details {
-    width: 100%;
-    max-width: none;
-    gap: 40px;
-    min-width: 0;
+    display: contents;
   }
 
   .price-left__title,
@@ -7383,13 +7448,16 @@ html.hero-collage-painted .hero-main__photo-stack {
     gap: 30px;
   }
 
-  html.layout--fluid .price-left,
-  html.layout--fluid .price-card__body {
+  html.layout--fluid .price-left {
     flex: 1 1 auto;
     min-width: 0;
     width: auto;
     max-width: 872px;
     gap: 30px;
+  }
+
+  html.layout--fluid .price-card__body {
+    gap: 140px;
   }
 
   html.layout--fluid .price-card__details {
@@ -7960,61 +8028,55 @@ html.hero-collage-painted .hero-main__photo-stack {
 
   .about-card--lime .about-card__media--photo,
   html.layout--fluid .about-card--lime .about-card__media--photo {
-    position: relative;
-    top: auto;
-    right: auto;
+    position: absolute;
+    top: 210px;
+    right: -80px;
     left: auto;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    min-height: clamp(120px, 52vw, 240px);
-    max-height: min(240px, 60vw);
-    margin: 0 auto;
-    overflow: hidden;
-    flex: 0 0 auto;
-    align-self: stretch;
+    width: 364px;
+    height: 413px;
+    max-width: none;
+    margin: 0;
+    overflow: clip;
+    aspect-ratio: 364 / 413;
+    min-height: 0;
+    max-height: none;
+    z-index: 1;
+    flex: none;
+    align-self: auto;
   }
 
   .about-card--lime .about-card__photo-box,
   html.layout--fluid .about-card--lime .about-card__photo-box {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    inset: auto auto 0;
+    left: -25px;
+    width: 364px;
+    height: 404px;
     max-width: none;
-    aspect-ratio: unset;
+    aspect-ratio: 364 / 404;
   }
 
   .about-card--lime .about-card__img-crop,
   html.layout--fluid .about-card--lime .about-card__img-crop {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    overflow: hidden;
   }
 
   .about-card--lime .about-card__img-crop picture,
   html.layout--fluid .about-card--lime .about-card__img-crop picture {
-    display: block;
-    width: 100%;
-    height: 100%;
+    display: contents;
   }
 
   .about-card--lime .about-card__img,
   html.layout--fluid .about-card--lime .about-card__img {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    display: block;
+    width: 165.47%;
+    height: 205.25%;
+    left: -34.54%;
+    top: -11.89%;
     max-width: none;
-    left: 0;
-    top: 0;
     object-fit: cover;
-    object-position: 50% 18%;
     filter: grayscale(1);
   }
 
@@ -8023,12 +8085,16 @@ html.hero-collage-painted .hero-main__photo-stack {
   }
 
   .about-card--muted .about-card__media--seal {
-    height: min(80vw, 420px);
-    min-height: 300px;
-    max-height: 440px;
-    padding: clamp(16px, 5vw, 36px) 0 0;
-    overflow: hidden;
-    border-radius: 0 0 32px 32px;
+    position: absolute;
+    left: 23px;
+    top: 115px;
+    width: 612px;
+    height: 622px;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    border-radius: 0;
+    z-index: 0;
   }
 
   .about-card__seal-view {
@@ -8037,6 +8103,21 @@ html.hero-collage-painted .hero-main__photo-stack {
 
   .about-card--muted .about-card__seal-view {
     min-height: 0;
+    overflow: visible;
+  }
+
+  .about-card--muted .about-card__seal-clip {
+    overflow: visible;
+  }
+
+  .about-card--muted .about-card__seal-stage {
+    position: absolute;
+    left: 13.23px;
+    top: 22.91px;
+    width: 598.92px;
+    height: 598.92px;
+    transform: scale(calc((438.44 / 556) * var(--about-muted-seal-scale, 1)));
+    transform-origin: 50% 50%;
   }
 
   .section--community {
