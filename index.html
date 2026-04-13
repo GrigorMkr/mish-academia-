@@ -22,6 +22,8 @@
     <link rel="preload" href="fonts/loos-normal-medium.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="fonts/loos-wide-medium.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="fonts/manrope-medium.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/manrope-600-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="fonts/manrope-600-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="css/styles.css" />
@@ -37,9 +39,7 @@
               muted
               loop
               playsinline
-              webkit-playsinline
               preload="auto"
-              disablepictureinpicture
               aria-hidden="true"
             >
               <source src="assets/video-project-bg.mp4" type="video/mp4" />
@@ -70,7 +70,7 @@
                     <div class="hero-panel__row hero-panel__row--mid"></div>
                     <div class="hero-panel__row hero-panel__row--short"></div>
                   </div>
-                  <svg class="hero-panel__chart" viewBox="0 0 320 100" fill="none">
+                  <svg class="hero-panel__chart" width="320" height="100" viewBox="0 0 320 100" fill="none" aria-hidden="true" focusable="false">
                     <path
                       d="M4 78 C48 22 72 88 112 52 S200 8 268 38 L316 18"
                       stroke="rgb(255 255 255 / 0.88)"
@@ -167,10 +167,10 @@
       </script>
       <div class="page">
       <main>
-      <section
+      <div
         class="section section--hero section--hero-promo section--hero-sentinel"
         aria-hidden="true"
-      ></section>
+      ></div>
 
       <section class="section section--hero-main" aria-labelledby="hero-main-title">
         <div class="hero-main">
@@ -295,7 +295,7 @@
               <div class="about-card__copy">
                 <div class="about-card__head">
                   <span class="about-card__tag">Что я получу?</span>
-                  <h3 class="about-card__h">Практические навыки</h3>
+                  <h3 class="about-card__h">Практические<br />навыки</h3>
                 </div>
                 <p class="about-card__lede">
                   Даем конкретные знания по&nbsp;профессии. Тренируемся на&nbsp;реальных проектах<br class="about-card__br about-card__br--deep" />
@@ -410,7 +410,8 @@
                   <h3 class="about-card__h">Актуальные знания</h3>
                 </div>
                 <p class="about-card__lede">
-                  Знаем, какие навыки нужны работодателям. Составляем программы, ориентируясь на тенденции рынка
+                  Знаем, какие навыки нужны работодателям. Составляем программы, ориентируясь<br />
+                  на тенденции рынка
                 </p>
               </div>
               <div class="about-card__media about-card__media--seal" aria-hidden="true">
@@ -479,29 +480,21 @@
           </div>
 
           <dl class="community-stats">
-            <div class="community-stats__left">
-              <dt class="community-stats__big">Более 100</dt>
-              <dd class="community-stats__text">
-                выпускников за все время<br />
-                работы академии
-              </dd>
-            </div>
-
-            <div class="community-stats__right">
-              <div class="community-stat">
-                <dt class="community-stat__pct">78%</dt>
-                <dd class="community-stat__text">
-                  готовы рекомендовать академию<br />
-                  spreent своим друзьям и&nbsp;коллегам
-                </dd>
-              </div>
-              <div class="community-stat community-stat--lower">
-                <dt class="community-stat__pct">89%</dt>
-                <dd class="community-stat__text">
-                  отмечают качество и&nbsp;полезность знаний, полученных в&nbsp;Академии
-                </dd>
-              </div>
-            </div>
+            <dt class="community-stats__big">Более 100</dt>
+            <dd class="community-stats__text">
+              выпускников за все время<br />
+              работы академии
+            </dd>
+            <dt class="community-stat__pct">78%</dt>
+            <dd class="community-stat__text">
+              готовы рекомендовать академию<br />
+              spreent своим друзьям и&nbsp;коллегам
+            </dd>
+            <dt class="community-stat__pct community-stat--lower">89%</dt>
+            <dd class="community-stat__text">
+              отмечают качество и&nbsp;пользу<br />
+              знаний, полученных в&nbsp;spreent
+            </dd>
           </dl>
         </div>
       </section>
@@ -701,7 +694,10 @@
             <div class="footer-cert__left">
               <div class="footer-cert__block-h">
                 <div class="footer-cert__intro">
-                  <h2 class="footer-cert__title">Получите сертификат после успешного завершения курса</h2>
+                  <h2 class="footer-cert__title">
+                    <span class="footer-cert__title-text footer-cert__title-text--desktop">Получи сертификат об&nbsp;успешном завершении курса</span>
+                    <span class="footer-cert__title-text footer-cert__title-text--mobile">Получите сертификат после успешного завершения курса</span>
+                  </h2>
                   <p class="footer-cert__desc">
                     Обучение ведется на основании лицензии государственного образца
                   </p>
@@ -726,22 +722,27 @@
         <section id="form" class="footer-form">
           <h2 class="h2 h2--white">Сделайте апгрейд карьеры</h2>
           <form class="footer-form__fields" action="https://echo.htmlacademy.ru/" method="post" novalidate>
-            <label class="footer-form__field">
-              <span class="visually-hidden">Имя</span>
-              <input id="lead-name" type="text" name="name" class="footer-form__input" placeholder="Имя" autocomplete="name" required />
-            </label>
-            <label class="footer-form__field">
-              <span class="visually-hidden">Телефон</span>
-              <input id="lead-phone" type="tel" name="phone" class="footer-form__input" placeholder="Телефон" autocomplete="tel" required />
-            </label>
-            <label class="footer-form__field">
-              <span class="visually-hidden">Почта</span>
-              <input id="lead-email" type="email" name="email" class="footer-form__input" placeholder="Почта" autocomplete="email" required />
-            </label>
-            <button type="submit" class="btn btn--lime footer-form__submit">Оставить заявку</button>
+            <div class="footer-form__inputs">
+              <label class="footer-form__field">
+                <span class="visually-hidden">Имя</span>
+                <input id="lead-name" type="text" name="name" class="footer-form__input" placeholder="Имя" autocomplete="name" required />
+              </label>
+              <label class="footer-form__field">
+                <span class="visually-hidden">Телефон</span>
+                <input id="lead-phone" type="tel" name="phone" class="footer-form__input" placeholder="Телефон" autocomplete="tel" required />
+              </label>
+              <label class="footer-form__field">
+                <span class="visually-hidden">Почта</span>
+                <input id="lead-email" type="email" name="email" class="footer-form__input" placeholder="Почта" autocomplete="email" required />
+              </label>
+            </div>
+            <button type="submit" class="btn btn--lime footer-form__submit">
+              <span class="footer-form__submit-text">Оставить заявку</span>
+            </button>
           </form>
           <p class="footer-form__legal">
-            Нажимая кнопку «Оставить заявку», вы&nbsp;подтверждаете согласие на&nbsp;обработку персональных данных
+            Нажимая кнопку «Оставить заявку», вы&nbsp;подтверждаете<br />
+            согласие на&nbsp;обработку персональных данных
           </p>
         </section>
 
@@ -788,8 +789,9 @@
 
           <div class="footer-bottom__meta">
             <p class="footer-copy">Академия Богдана Гончаренко © 2024</p>
-            <div class="by-mish" aria-label="by mish">
-              <span class="by-mish__by">by</span>
+            <div class="by-mish">
+              <span class="visually-hidden">by mish</span>
+              <span class="by-mish__by" aria-hidden="true">by</span>
               <span class="by-mish__mish" aria-hidden="true">
                 <img src="assets/mish-by.svg" alt="" width="85" height="30" />
               </span>

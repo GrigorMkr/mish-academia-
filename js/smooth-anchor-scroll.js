@@ -1,5 +1,6 @@
 import { closeSiteMenu } from './menu.js';
 import { collapseHeaderBarForAnchorThen } from './header-expand-scroll.js';
+import { syncHeaderOffsetNow } from './header-scroll.js';
 
 const SCROLL_DURATION_MS_MIN = 420;
 const SCROLL_DURATION_MS_MAX = 1300;
@@ -26,7 +27,7 @@ function clampDocumentScrollY(y) {
   return Math.max(0, Math.min(y, maxY));
 }
 
-function resolveAnchorScrollTargetY(hash) {
+export function resolveAnchorScrollTargetY(hash) {
   if (!hash || hash === '#') {
     return 0;
   }
@@ -105,7 +106,7 @@ function scrollWindowToYWithEasing(targetY, onComplete) {
     }
   }
 
-  smoothScrollFrameId = requestAnimationFrame(tick);
+  tick(performance.now());
 }
 
 function replaceHistoryWithHash(hash) {
@@ -119,6 +120,15 @@ function replaceHistoryWithHash(hash) {
   } catch {
     void 0;
   }
+}
+
+function scrollWindowToYImmediate(targetY, onComplete) {
+  cancelSmoothScrollAnimation();
+  const clampedY = clampDocumentScrollY(targetY);
+  window.scrollTo({ top: clampedY, left: 0, behavior: 'auto' });
+  document.documentElement.scrollTop = clampedY;
+  document.body.scrollTop = clampedY;
+  onComplete?.();
 }
 
 export function initSmoothAnchorScroll() {
@@ -147,20 +157,39 @@ export function initSmoothAnchorScroll() {
 
       const hash = rawHref;
 
+      closeSiteMenu();
+
       const targetY = resolveAnchorScrollTargetY(hash);
       if (targetY === null) {
         return;
       }
 
-      closeSiteMenu();
-
       event.preventDefault();
 
+      const header = document.querySelector('.site-header');
+      const navAnchor = anchor.closest('.site-header');
+      const barWasExpanded = Boolean(
+        navAnchor && header?.classList.contains('site-header--bar-pinned-expanded'),
+      );
+
       const scrollToTarget = () => {
-        scrollWindowToYWithEasing(targetY, () => replaceHistoryWithHash(hash));
+        if (navAnchor) {
+          if (barWasExpanded) {
+            syncHeaderOffsetNow();
+            const yAfterCollapse = resolveAnchorScrollTargetY(hash);
+            if (yAfterCollapse === null) {
+              return;
+            }
+            scrollWindowToYWithEasing(yAfterCollapse, () => replaceHistoryWithHash(hash));
+          } else {
+            scrollWindowToYImmediate(targetY, () => replaceHistoryWithHash(hash));
+          }
+        } else {
+          scrollWindowToYWithEasing(targetY, () => replaceHistoryWithHash(hash));
+        }
       };
 
-      if (anchor.closest('.site-header')) {
+      if (navAnchor) {
         collapseHeaderBarForAnchorThen(scrollToTarget);
       } else {
         scrollToTarget();

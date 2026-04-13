@@ -1,6 +1,3 @@
-const CSS_VAR_HEADER_OFFSET = '--header-offset';
-const BODY_STYLE_OVERFLOW_HIDDEN = 'hidden';
-
 let lastWrittenHeaderOffset = '';
 
 function applyHeaderBottomOffsetPx(header) {
@@ -11,7 +8,16 @@ function applyHeaderBottomOffsetPx(header) {
     return;
   }
   lastWrittenHeaderOffset = value;
-  document.documentElement.style.setProperty(CSS_VAR_HEADER_OFFSET, value);
+  document.documentElement.style.setProperty('--header-offset', value);
+}
+
+export function syncHeaderOffsetNow() {
+  const header = document.querySelector('.site-header');
+  if (!header) {
+    return;
+  }
+  lastWrittenHeaderOffset = '';
+  applyHeaderBottomOffsetPx(header);
 }
 
 export function initHeaderScroll() {
@@ -26,7 +32,7 @@ export function initHeaderScroll() {
 
   let scrollCoalescePending = false;
   function onWindowScroll() {
-    if (document.body.style.overflow === BODY_STYLE_OVERFLOW_HIDDEN) {
+    if (document.body.style.overflow === 'hidden') {
       return;
     }
     if (scrollCoalescePending) {

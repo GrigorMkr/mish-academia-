@@ -365,8 +365,10 @@ export function initHeaderExpandOnScroll() {
     }
 
     cancelCollapseAnimationFrame();
+    header.classList.add('site-header--bar-snap');
     collapseFinishCallback = () => {
-      requestAnimationFrame(onDone);
+      header.classList.remove('site-header--bar-snap');
+      onDone();
     };
     finishCollapseAndScrollMain(pinnedScrollY, 0);
   };
