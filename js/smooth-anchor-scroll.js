@@ -122,15 +122,6 @@ function replaceHistoryWithHash(hash) {
   }
 }
 
-function scrollWindowToYImmediate(targetY, onComplete) {
-  cancelSmoothScrollAnimation();
-  const clampedY = clampDocumentScrollY(targetY);
-  window.scrollTo({ top: clampedY, left: 0, behavior: 'auto' });
-  document.documentElement.scrollTop = clampedY;
-  document.body.scrollTop = clampedY;
-  onComplete?.();
-}
-
 export function initSmoothAnchorScroll() {
   document.addEventListener(
     'click',
@@ -157,42 +148,38 @@ export function initSmoothAnchorScroll() {
 
       const hash = rawHref;
 
-      closeSiteMenu();
-
-      const targetY = resolveAnchorScrollTargetY(hash);
-      if (targetY === null) {
-        return;
-      }
+      const header = document.querySelector('.site-header');
+      const wasMenuOpen = Boolean(header?.classList.contains('site-header--menu-open'));
+      const isFromHeader = Boolean(anchor.closest('.site-header'));
 
       event.preventDefault();
 
-      const header = document.querySelector('.site-header');
-      const navAnchor = anchor.closest('.site-header');
-      const barWasExpanded = Boolean(
-        navAnchor && header?.classList.contains('site-header--bar-pinned-expanded'),
-      );
+      closeSiteMenu();
 
-      const scrollToTarget = () => {
-        if (navAnchor) {
-          if (barWasExpanded) {
-            syncHeaderOffsetNow();
-            const yAfterCollapse = resolveAnchorScrollTargetY(hash);
-            if (yAfterCollapse === null) {
-              return;
-            }
-            scrollWindowToYWithEasing(yAfterCollapse, () => replaceHistoryWithHash(hash));
-          } else {
-            scrollWindowToYImmediate(targetY, () => replaceHistoryWithHash(hash));
+      const proceed = () => {
+        if (!isFromHeader) {
+          const targetY = resolveAnchorScrollTargetY(hash);
+          if (targetY === null) {
+            return;
           }
-        } else {
           scrollWindowToYWithEasing(targetY, () => replaceHistoryWithHash(hash));
+          return;
         }
+
+        collapseHeaderBarForAnchorThen(() => {
+          syncHeaderOffsetNow();
+          const yAfterCollapse = resolveAnchorScrollTargetY(hash);
+          if (yAfterCollapse === null) {
+            return;
+          }
+          scrollWindowToYWithEasing(yAfterCollapse, () => replaceHistoryWithHash(hash));
+        });
       };
 
-      if (navAnchor) {
-        collapseHeaderBarForAnchorThen(scrollToTarget);
+      if (wasMenuOpen) {
+        requestAnimationFrame(proceed);
       } else {
-        scrollToTarget();
+        proceed();
       }
     },
     true,
