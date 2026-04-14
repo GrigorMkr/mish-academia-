@@ -6,7 +6,7 @@
     <title>Mish × HTML Academy — Spreent</title>
     <script>
       (function () {
-        var root = document.documentElement;
+        const root = document.documentElement;
         root.style.scrollBehavior = 'auto';
         window.addEventListener(
           'load',
@@ -148,8 +148,8 @@
       </header>
       <script>
         (function () {
-          var header = document.querySelector('.site-header');
-          var root = document.documentElement;
+          const header = document.querySelector('.site-header');
+          const root = document.documentElement;
           if (!header || typeof window.matchMedia !== 'function') {
             return;
           }
@@ -804,23 +804,23 @@
 
     <script>
       (function () {
-        var root = document.documentElement;
-        var header = document.querySelector('.site-header');
+        const root = document.documentElement;
+        const header = document.querySelector('.site-header');
         if (header) {
-          var bottom = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
+          const bottom = Math.max(0, Math.round(header.getBoundingClientRect().bottom));
           root.style.setProperty('--header-offset', bottom + 'px');
         }
-        var y = window.scrollY || root.scrollTop;
-        var gate = 28;
-        var surfaceSection =
+        const y = window.scrollY || root.scrollTop;
+        const gate = 28;
+        const surfaceSection =
           document.querySelector('.section--hero-main') || document.querySelector('#about');
-        var inner = document.querySelector('.site-header__inner');
-        var t = 0;
+        const inner = document.querySelector('.site-header__inner');
+        let t = 0;
         if (y >= gate && inner && surfaceSection) {
-          var barBottom = inner.getBoundingClientRect().bottom;
-          var sectionTop = surfaceSection.getBoundingClientRect().top;
-          var d = sectionTop - barBottom;
-          var range = 168;
+          const barBottom = inner.getBoundingClientRect().bottom;
+          const sectionTop = surfaceSection.getBoundingClientRect().top;
+          const d = sectionTop - barBottom;
+          const range = 168;
           t = 1 - Math.min(1, Math.max(0, d / range));
         }
         root.style.setProperty('--header-surface-t', t.toFixed(4));
